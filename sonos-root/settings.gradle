@@ -1,0 +1,6 @@
+rootProject.name = 'sonos-root'
+include ':sonos-java'
+include ':sonos-web'
+
+project(':sonos-java').projectDir = "$rootDir/../sonos-java" as File
+project(':sonos-web').projectDir = "$rootDir/../sonos-web" as File
