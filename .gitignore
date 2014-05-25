@@ -5,8 +5,8 @@ tmp
 work
 .cvsignore
 .metadata
-.gitignore
-/build
+build/
 .classpath
 .project
 .settings
+.gradle
