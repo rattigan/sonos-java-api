@@ -7,3 +7,6 @@ work
 .metadata
 .gitignore
 /build
+.classpath
+.project
+.settings
