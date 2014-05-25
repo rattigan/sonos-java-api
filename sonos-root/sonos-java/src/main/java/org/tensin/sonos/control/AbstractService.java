@@ -125,9 +125,15 @@ public abstract class AbstractService {
      *            the type
      */
     public AbstractService(final UpnpService upnpService, final Service service, final String type) {
-        if (!service.getServiceType().toString().equals(type)) {
-            throw new IllegalArgumentException("service must be " + type + ", not " + service.getServiceType());
-        }
+    	if (service == null) {
+    		// It's OK for service to be null
+    		LOGGER.info(type + " service is null for: " + upnpService);
+    	}
+    	else {
+    		if (!service.getServiceType().toString().equals(type)) {
+    			throw new IllegalArgumentException("service must be " + type + ", not " + service.getServiceType());
+    		}
+    	}
 
         this.upnpService = upnpService;
         this.service = service;
