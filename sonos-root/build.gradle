@@ -1,5 +1,6 @@
 allprojects  {
     apply plugin: 'maven'
+    apply plugin: 'eclipse'
 
     group = 'org.tensin.sonos'
     version = '1.0.0-SNAPSHOT'
