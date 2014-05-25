@@ -1,2 +1,0 @@
-Main-Class: org.tensin.sonos.run.Sonos
-

@@ -1,5 +1,0 @@
-Rebuild widget set
-  204   mvn vaadin:update-widgetset install 
-puis copier le widget set généré de target/... vers src/main/webapp/VAADIN/
-
-
