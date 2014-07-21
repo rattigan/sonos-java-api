@@ -12,7 +12,6 @@
  */
 package org.tensin.sonos.helpers;
 
-import org.apache.commons.logging.LogFactory;
 import org.tensin.sonos.model.Entry;
 
 /**

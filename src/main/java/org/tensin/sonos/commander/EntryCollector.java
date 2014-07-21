@@ -1,6 +1,6 @@
 package org.tensin.sonos.commander;
 
-import com.beust.jcommander.internal.Lists;
+import com.google.common.collect.Lists;
 import org.tensin.sonos.control.BrowseHandle;
 import org.tensin.sonos.control.EntryCallback;
 import org.tensin.sonos.model.Entry;

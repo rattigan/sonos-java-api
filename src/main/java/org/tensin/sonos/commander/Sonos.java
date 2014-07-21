@@ -1,6 +1,6 @@
 package org.tensin.sonos.commander;
 
-import com.beust.jcommander.internal.Lists;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.teleal.cling.UpnpService;
