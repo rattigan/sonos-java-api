@@ -14,6 +14,7 @@ package org.tensin.sonos.xml;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -29,10 +30,10 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
  * Parses the String result from a zone player into a more useable type.
- * 
+ *
  * @author David WHEELER
  * @author Serge SIMON
- * 
+ *
  */
 public class ResultParser {
 
@@ -41,7 +42,7 @@ public class ResultParser {
 
     /**
      * Gets the entries from string result.
-     * 
+     *
      * @param xml
      *            the xml
      * @return a list of Entrys from the given xml string.
@@ -49,6 +50,8 @@ public class ResultParser {
      *             the sAX exception
      */
     public static List<Entry> getEntriesFromStringResult(final String xml) throws SAXException {
+        if (xml.isEmpty())
+            return Collections.emptyList();
         XMLReader reader = XMLReaderFactory.createXMLReader();
         EntryHandler handler = new EntryHandler();
         reader.setContentHandler(handler);
@@ -63,7 +66,7 @@ public class ResultParser {
 
     /**
      * Gets the group state from result.
-     * 
+     *
      * @param xml
      *            the xml
      * @return zone group state from the given xml
@@ -87,7 +90,7 @@ public class ResultParser {
 
     /**
      * Parses the av transport event.
-     * 
+     *
      * @param xml
      *            the xml
      * @return the map
@@ -109,7 +112,7 @@ public class ResultParser {
 
     /**
      * Parses the rendering control event.
-     * 
+     *
      * @param xml
      *            the xml
      * @return the map
@@ -131,7 +134,7 @@ public class ResultParser {
 
     /**
      * Parses the track meta data.
-     * 
+     *
      * @param xml
      *            the xml
      * @return the track meta data

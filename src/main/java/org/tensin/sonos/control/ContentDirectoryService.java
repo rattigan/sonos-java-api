@@ -25,10 +25,10 @@ import org.xml.sax.SAXException;
 
 /**
  * Allows the listing and searching of the audio content of a zone player.
- * 
+ *
  * @author David WHEELER
  * @author Serge SIMON
- * 
+ *
  */
 public class ContentDirectoryService extends AbstractService {
 
@@ -48,7 +48,7 @@ public class ContentDirectoryService extends AbstractService {
 
         /**
          * Instantiates a new async browser.
-         * 
+         *
          * @param type
          *            the type
          * @param callback
@@ -61,7 +61,7 @@ public class ContentDirectoryService extends AbstractService {
 
         /**
          * {@inheritDoc}
-         * 
+         *
          * @see org.tensin.sonos.control.BrowseHandle#cancel()
          */
         @Override
@@ -71,7 +71,7 @@ public class ContentDirectoryService extends AbstractService {
 
         /**
          * {@inheritDoc}
-         * 
+         *
          * @see java.lang.Runnable#run()
          */
         @Override
@@ -153,7 +153,7 @@ public class ContentDirectoryService extends AbstractService {
 
     /**
      * Instantiates a new content directory service.
-     * 
+     *
      * @param upnpService
      *            the upnp service
      * @param service
@@ -166,7 +166,7 @@ public class ContentDirectoryService extends AbstractService {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.tensin.sonos.control.AbstractService#dispose()
      */
     @Override
@@ -177,7 +177,7 @@ public class ContentDirectoryService extends AbstractService {
 
     /**
      * Retrieves a list of Album entries from the device.
-     * 
+     *
      * @param startAt
      *            the index of the first entry to be returned.
      * @param length
@@ -191,7 +191,7 @@ public class ContentDirectoryService extends AbstractService {
 
     /**
      * Retrieves all entries of the given type asyncronously, via the given callback.
-     * 
+     *
      * @param callback
      *            the callback
      * @param type
@@ -210,7 +210,7 @@ public class ContentDirectoryService extends AbstractService {
 
     /**
      * Retrieves a list of Artist entries from the device.
-     * 
+     *
      * @param startAt
      *            the index of the first entry to be returned.
      * @param length
@@ -224,7 +224,7 @@ public class ContentDirectoryService extends AbstractService {
 
     /**
      * Retrieves a list of entries from the device.
-     * 
+     *
      * @param startAt
      *            the index of the first entry to be returned.
      * @param length
@@ -240,7 +240,7 @@ public class ContentDirectoryService extends AbstractService {
 
     /**
      * Retrieves a list of entries from the device.
-     * 
+     *
      * @param startAt
      *            the index of the first entry to be returned.
      * @param length
@@ -258,7 +258,7 @@ public class ContentDirectoryService extends AbstractService {
 
     /**
      * Retrieves a list of entries from the device.
-     * 
+     *
      * @param startAt
      *            the index of the first entry to be returned.
      * @param length
@@ -291,7 +291,7 @@ public class ContentDirectoryService extends AbstractService {
 
     /**
      * Performs a getEntries request, returning the response.
-     * 
+     *
      * @param startAt
      *            the index of the first entry to be returned.
      * @param length
@@ -322,7 +322,7 @@ public class ContentDirectoryService extends AbstractService {
 
     /**
      * Retrieves a list of root level entries from the device.
-     * 
+     *
      * @param startAt
      *            the index of the first entry to be returned.
      * @param length
@@ -336,7 +336,7 @@ public class ContentDirectoryService extends AbstractService {
 
     /**
      * Retrieves a list of Track entries from the device, representing the current queue.
-     * 
+     *
      * @param startAt
      *            the index of the first entry to be returned.
      * @param length
@@ -350,7 +350,7 @@ public class ContentDirectoryService extends AbstractService {
 
     /**
      * Gets the search capabilites.
-     * 
+     *
      * @return the search capabilites
      */
     public String getSearchCapabilites() {
@@ -362,7 +362,7 @@ public class ContentDirectoryService extends AbstractService {
 
     /**
      * Gets the single entry.
-     * 
+     *
      * @param type
      *            the type
      * @return the entry given by type, or null if it could not be retrieved
@@ -389,7 +389,7 @@ public class ContentDirectoryService extends AbstractService {
 
     /**
      * Retrieves a list of Track entries from the device.
-     * 
+     *
      * @param startAt
      *            the index of the first entry to be returned.
      * @param length

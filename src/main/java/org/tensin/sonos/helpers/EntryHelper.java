@@ -17,7 +17,7 @@ import org.tensin.sonos.model.Entry;
 
 /**
  * The Class EntryHelper.
- * 
+ *
  * @author David WHEELER
  * @author Serge SIMON
  */
@@ -25,7 +25,7 @@ public final class EntryHelper {
 
     /**
      * Creates an Entry for the given url.
-     * 
+     *
      * @param url
      *            the String representation of the url. format: [[scheme:]//]host[:port]/resource
      * @return An entry that refers to the given url resource
@@ -34,14 +34,12 @@ public final class EntryHelper {
         String res;
         if (url.startsWith("http:")) {
             // replace protocol part
-            res = "x-rincon-mp3radio:" + url.substring(5);
-        } else if (url.startsWith("//")) {
-            res = "x-rincon-mp3radio:" + url;
+            res = url.replace("cifs:", "x-rincon-mp3radio:");
+        } else if (url.startsWith("cifs:")) {
+            res = url.replace("cifs:", "x-file-cifs:");
         } else {
-            res = "x-rincon-mp3radio://" + url;
+            res = url;
         }
-        LogFactory.getLog(EntryHelper.class).debug("Created Entry for url: " + url);
         return new Entry("URL:" + url, url, "URL:", "URL", "", "", "object.item.audioItem.audioBroadcast", res, "");
-
     }
 }
