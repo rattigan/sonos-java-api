@@ -1,0 +1,23 @@
+allprojects {
+    apply plugin: 'maven'
+    apply plugin: 'eclipse'
+
+    group = 'org.tensin.sonos'
+    version = '1.0.0-SNAPSHOT'
+}
+
+subprojects {
+    apply plugin: 'java'
+    sourceCompatibility = 1.6
+    targetCompatibility = 1.6
+
+
+    repositories {
+        mavenCentral()
+        //mavenLocal()
+
+        maven { url "http://4thline.org/m2" }
+        maven { url "http://repo.maven.apache.org/maven2" }
+        maven { url "http://maven.vaadin.com/vaadin-addons" }
+    }
+}
