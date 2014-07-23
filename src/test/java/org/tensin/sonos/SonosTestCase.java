@@ -29,18 +29,12 @@ public class SonosTestCase {
     }
 
     @After
-    public void tearDown() throws SonosException {
+    public void tearDown() {
         sonos.close();
     }
 
-    /**
-     * Test next.
-     *
-     * @throws org.tensin.sonos.SonosException
-     *             the sonos exception
-     */
     @Test
-    public void testDiscover() throws SonosException {
+    public void testDiscover() {
         List<String> zones = sonos.getZoneNames();
         log.info("Discovered: " + zones);
     }
@@ -58,7 +52,7 @@ public class SonosTestCase {
      *             the sonos exception
      */
     @Test
-    public void testList() throws SonosException {
+    public void testList() {
         String[] types = {"A:", "S:", "Q", "Q:0", "SQ:", "R:", "EN:"};//, "S://server_smb/Sara", "A:PLAYLISTS", "A:TRACKS"};
         for (String type : types) {
             Iterable<Entry> entries = sonos.browse(sonos.getPlayer(ZONE1), type);
@@ -97,13 +91,27 @@ public class SonosTestCase {
     }
 
     @Test
-    public void testPlay() throws SonosException {
+    public void testPlay()  {
         ZonePlayer player = sonos.getPlayer(ZONE1);
         dumpEntries(sonos.browse(player, "Q:0"));
         sonos.clearQueue(player);
         sonos.enqueue(player, "cifs://server_smb/sonos/Classical/Bach, Johann Sebastian/Goldberg Variations/Glenn Gould - Bach  The Goldberg Variations (1955)/02 Variation 1 a 1 Clav..flac");
         dumpEntries(sonos.browse(player, "Q:0"));
         sonos.play(player);
+    }
+
+    @Test
+    public void testVolume() throws InterruptedException {
+        ZonePlayer player = sonos.getPlayer(ZONE1);
+        sonos.setVolume(player, 20);
+        //log.info("" + sonos.volume(player));
+        assert sonos.volume(player) == 20;
+        sonos.setVolume(player, 10);
+        assert sonos.volume(player) == 10;
+        sonos.adjustVolume(player, 10);
+        assert sonos.volume(player) == 20;
+        sonos.adjustVolume(player, -10);
+        assert sonos.volume(player) == 10;
     }
 
 //    /**
@@ -113,7 +121,7 @@ public class SonosTestCase {
 //     *             the sonos exception
 //     */
 //    @Test
-//    public void testMute() throws SonosException {
+//    public void testMute() {
 //        CLIController.main(new String[] { "--command", "mute", "--zone", ZONE1});
 //
 //        ZoneCommandExecutor executor = zoneCommandDispatcher.getZoneCommandExecutor(ZONE1);
@@ -132,7 +140,7 @@ public class SonosTestCase {
 //     *             the sonos exception
 //     */
 //    @Test
-//    public void testNext() throws SonosException {
+//    public void testNext() {
 //        CLIController.main(new String[] { "--command", "next", "--zone", ZONE2});
 //    }
 //
@@ -143,7 +151,7 @@ public class SonosTestCase {
 //     *             the sonos exception
 //     */
 //    @Test
-//    public void testPause() throws SonosException {
+//    public void testPause() {
 //        CLIController.main(new String[] { "--command", "pause", "--zone", "ALL" });
 //    }
 //
@@ -154,7 +162,7 @@ public class SonosTestCase {
 //     *             the sonos exception
 //     */
 //    @Test
-//    public void testPlay() throws SonosException {
+//    public void testPlay() {
 //        CLIController.main(new String[] { "--command", "play", "--zone", ZONE1});
 //    }
 //
@@ -165,7 +173,7 @@ public class SonosTestCase {
 //     *             the sonos exception
 //     */
 //    @Test
-//    public void testUnknownCommand() throws SonosException {
+//    public void testUnknownCommand() {
 //        try {
 //            CLIController.main(new String[] { "--zzz" });
 //        } catch (final ParameterException e) {
@@ -180,7 +188,7 @@ public class SonosTestCase {
 //     *             the sonos exception
 //     */
 //    @Test
-//    public void testUnknownOption() throws SonosException {
+//    public void testUnknownOption() {
 //        CLIController.main(new String[] { "--command", "dis" });
 //    }
 //
@@ -191,7 +199,7 @@ public class SonosTestCase {
 //     *             the sonos exception
 //     */
 //    @Test
-//    public void testUnknownZone() throws SonosException {
+//    public void testUnknownZone() {
 //        CLIController.main(new String[] { "--command", "mute", "--zone", "zzzzzzzzzz" });
 //    }
 //
@@ -202,7 +210,7 @@ public class SonosTestCase {
 //     *             the sonos exception
 //     */
 //    @Test
-//    public void testUnmute() throws SonosException {
+//    public void testUnmute() {
 //        CLIController.main(new String[] { "--command", "unmute", "--zone", ZONE1});
 //    }
 //
@@ -213,7 +221,7 @@ public class SonosTestCase {
 //     *             the sonos exception
 //     */
 //    @Test
-//    public void testUsage() throws SonosException {
+//    public void testUsage() {
 //        CLIController.main(new String[] { "--usage" });
 //    }
 //
@@ -224,7 +232,7 @@ public class SonosTestCase {
 //     *             the sonos exception
 //     */
 //    @Test
-//    public void testVolume() throws SonosException {
+//    public void testVolume() {
 //        CLIController.main(new String[] { "--command", "volume", "--zone", ZONE2});
 //    }
 //
@@ -235,7 +243,7 @@ public class SonosTestCase {
 //     *             the sonos exception
 //     */
 //    @Test
-//    public void testVolumeDown() throws SonosException {
+//    public void testVolumeDown() {
 //        CLIController.main(new String[] { "--command", "down", "--zone", ZONE2});
 //    }
 //
@@ -246,7 +254,7 @@ public class SonosTestCase {
 //     *             the sonos exception
 //     */
 //    @Test
-//    public void testVolumeSet() throws SonosException {
+//    public void testVolumeSet() {
 //        CLIController.main(new String[] { "--command", "volume", "25", "--zone", ZONE2});
 //    }
 //
@@ -257,7 +265,7 @@ public class SonosTestCase {
 //     *             the sonos exception
 //     */
 //    @Test
-//    public void testVolumeUp() throws SonosException {
+//    public void testVolumeUp() {
 //        CLIController.main(new String[] { "--command", "up", "--zone", ZONE2});
 //    }
 

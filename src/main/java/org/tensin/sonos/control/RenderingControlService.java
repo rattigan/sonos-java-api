@@ -12,12 +12,6 @@
  */
 package org.tensin.sonos.control;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.teleal.cling.UpnpService;
@@ -26,24 +20,25 @@ import org.tensin.sonos.xml.RenderingControlEventHandler.RenderingControlEventTy
 import org.tensin.sonos.xml.ResultParser;
 import org.xml.sax.SAXException;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Provides control over the rendering (playing) of media (audio).
- * 
+ * <p/>
  * NOTE: this class is incomplete
- * 
+ *
  * @author David WHEELER
  * @author Serge SIMON
- * 
  */
 public class RenderingControlService extends AbstractService { // implements ServiceEventHandler
 
-    /** The Constant LOGGER. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(RenderingControlService.class);
-
     /**
-     * The known state of the ZonePlayer rendering control service.
+     * The Constant LOGGER.
      */
-    private final Map<RenderingControlEventType, String> state = new HashMap<RenderingControlEventType, String>();
+    private static final Logger LOGGER = LoggerFactory.getLogger(RenderingControlService.class);
 
     /**
      * The listeners to be notified when the state changes.
@@ -52,11 +47,9 @@ public class RenderingControlService extends AbstractService { // implements Ser
 
     /**
      * Instantiates a new rendering control service.
-     * 
-     * @param upnpService
-     *            the upnp service
-     * @param service
-     *            the service
+     *
+     * @param upnpService the upnp service
+     * @param service     the service
      */
     protected RenderingControlService(final UpnpService upnpService, final Service service) {
         super(upnpService, service, ZonePlayerConstants.SONOS_SERVICE_RENDERING_CONTROL);
@@ -65,9 +58,8 @@ public class RenderingControlService extends AbstractService { // implements Ser
 
     /**
      * Adds a listener to be notified when notifications are received from the ZonePlayer.
-     * 
-     * @param l
-     *            the l
+     *
+     * @param l the l
      */
     public void addListener(final RenderingControlListener l) {
         synchronized (listeners) {
@@ -77,9 +69,8 @@ public class RenderingControlService extends AbstractService { // implements Ser
 
     /**
      * Fire change event.
-     * 
-     * @param events
-     *            the events
+     *
+     * @param events the events
      */
     private void fireChangeEvent(final Set<RenderingControlEventType> events) {
         synchronized (listeners) {
@@ -91,48 +82,37 @@ public class RenderingControlService extends AbstractService { // implements Ser
 
     /**
      * Gets the mute.
-     * 
+     *
      * @return the mute
-     *         @ Signals that an I/O exception has occurred.
+     * @ Signals that an I/O exception has occurred.
      */
     public boolean getMute() {
-
-        String mute_master = state.get(RenderingControlEventType.MUTE_MASTER);
-        if (mute_master == null) {
-            SonosActionInvocation message = messageFactory.getMessage(getService(), "GetMute");
-            message.setInput("InstanceID", "0");
-            message.setInput("Channel", "Master"); // can also be LF or RF
-            executeImmediate(message);
-            state.put(RenderingControlEventType.MUTE_MASTER, message.getOutputAsString("CurrentMute"));
-        }
-        return Integer.parseInt(state.get(RenderingControlEventType.MUTE_MASTER)) == 1;
+        SonosActionInvocation message = messageFactory.getMessage(getService(), "GetMute");
+        message.setInput("InstanceID", "0");
+        message.setInput("Channel", "Master"); // can also be LF or RF
+        executeImmediate(message);
+        return Integer.parseInt(message.getOutputAsString("CurrentMute")) == 1;
     }
 
     /**
      * Gets the volume.
-     * 
+     *
      * @return the current volume, as a percentage of maximum volume.
-     *         @ Signals that an I/O exception has occurred.
+     * @ Signals that an I/O exception has occurred.
      */
     public int getVolume() {
-        String volume_master = state.get(RenderingControlEventType.VOLUME_MASTER);
-        if (volume_master == null) {
-            SonosActionInvocation message = messageFactory.getMessage(getService(), "GetVolume");
-            message.setInput("InstanceID", "0");
-            message.setInput("Channel", "Master"); // can also be LF or RF
-            executeImmediate(message);
-            state.put(RenderingControlEventType.VOLUME_MASTER, message.getOutputAsString("CurrentVolume"));
-        }
-        return Integer.parseInt(state.get(RenderingControlEventType.VOLUME_MASTER));
+        SonosActionInvocation message = messageFactory.getMessage(getService(), "GetVolume");
+        message.setInput("InstanceID", "0");
+        message.setInput("Channel", "Master"); // can also be LF or RF
+        executeImmediate(message);
+        return Integer.parseInt(message.getOutputAsString("CurrentVolume"));
     }
 
     /**
      * Handle state variable event.
-     * 
-     * @param varName
-     *            the var name
-     * @param newValue
-     *            the new value
+     *
+     * @param varName  the var name
+     * @param newValue the new value
      */
     public void handleStateVariableEvent(final String varName, final String newValue) {
         /*
@@ -156,7 +136,6 @@ public class RenderingControlService extends AbstractService { // implements Ser
         LOGGER.debug("received event " + varName + ": " + newValue);
         try {
             Map<RenderingControlEventType, String> changes = ResultParser.parseRenderingControlEvent(newValue);
-            state.putAll(changes);
             fireChangeEvent(changes.keySet());
         } catch (SAXException e) {
             LOGGER.error("Ignored event due to SAX parsing error: ", e);
@@ -165,9 +144,8 @@ public class RenderingControlService extends AbstractService { // implements Ser
 
     /**
      * Removes a listener.
-     * 
-     * @param l
-     *            the l
+     *
+     * @param l the l
      */
     public void removeListener(final RenderingControlListener l) {
         synchronized (listeners) {
@@ -177,10 +155,9 @@ public class RenderingControlService extends AbstractService { // implements Ser
 
     /**
      * Sets the mute to the given value. Must be between 0-1 inclusive.
-     * 
-     * @param mute
-     *            the new mute state.
-     *            @ Signals that an I/O exception has occurred.
+     *
+     * @param mute the new mute state.
+     * @ Signals that an I/O exception has occurred.
      */
 
     public void setCrossFade(final boolean crossfade) {
@@ -192,10 +169,9 @@ public class RenderingControlService extends AbstractService { // implements Ser
 
     /**
      * Sets the mute to the given value. Must be between 0-1 inclusive.
-     * 
-     * @param mute
-     *            the new mute state.
-     *            @ Signals that an I/O exception has occurred.
+     *
+     * @param mute the new mute state.
+     * @ Signals that an I/O exception has occurred.
      */
 
     public void setMute(final boolean mute) {
@@ -208,10 +184,9 @@ public class RenderingControlService extends AbstractService { // implements Ser
 
     /**
      * Sets the volume to the given %. Must be between 0-100 inclusive.
-     * 
-     * @param vol
-     *            the new volume as a percentage of maximum volume.
-     *            @ Signals that an I/O exception has occurred.
+     *
+     * @param vol the new volume as a percentage of maximum volume.
+     * @ Signals that an I/O exception has occurred.
      */
     public void setVolume(final int vol) {
         SonosActionInvocation message = messageFactory.getMessage(getService(), "SetVolume");
@@ -220,5 +195,4 @@ public class RenderingControlService extends AbstractService { // implements Ser
         message.setInput("DesiredVolume", String.valueOf(vol));
         execute(message);
     }
-
 }

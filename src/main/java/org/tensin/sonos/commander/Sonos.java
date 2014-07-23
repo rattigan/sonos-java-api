@@ -12,7 +12,6 @@ import org.teleal.cling.registry.DefaultRegistryListener;
 import org.teleal.cling.registry.Registry;
 import org.teleal.cling.registry.RegistryListener;
 import org.tensin.sonos.SonosConstants;
-import org.tensin.sonos.SonosException;
 import org.tensin.sonos.control.BrowseHandle;
 import org.tensin.sonos.control.ZonePlayer;
 import org.tensin.sonos.helpers.EntryHelper;
@@ -31,6 +30,7 @@ public class Sonos implements Closeable {
     private static final Logger log = LoggerFactory.getLogger(Sonos.class);
 
     private static final int DEFAULT_UDP_SEARCH_TIME = 120;
+    public static final int MAX_TRIES = 10;
 
     private List<ZonePlayer> zonePlayers = Lists.newArrayList();
 
@@ -47,7 +47,7 @@ public class Sonos implements Closeable {
         this(SonosConstants.MAX_DISCOVER_TIME_IN_MILLISECONDS);
     }
 
-    public ZonePlayer addZonePlayer(RemoteDevice dev) {
+    private ZonePlayer addZonePlayer(RemoteDevice dev) {
         synchronized (zonePlayers) {
             if (isZonePlayerAlreadyDefined(dev.getIdentity().getUdn().getIdentifierString())) {
                 return null;
@@ -89,14 +89,7 @@ public class Sonos implements Closeable {
                 dev.getDetails().getModelDetails().getModelNumber();
     }
 
-    public void dispose() {
-        synchronized (zonePlayers) {
-            for (ZonePlayer zp : zonePlayers)
-                zp.dispose();
-        }
-    }
-
-    public ZonePlayer getPlayer(String name) {
+    public synchronized ZonePlayer getPlayer(String name) {
         name = name.toLowerCase();
         synchronized (zonePlayers) {
             for (ZonePlayer zp : zonePlayers) {
@@ -107,7 +100,7 @@ public class Sonos implements Closeable {
         }
     }
 
-    public ZonePlayer getZonePlayerById(String id) {
+    private ZonePlayer getZonePlayerById(String id) {
         synchronized (zonePlayers) {
             for (ZonePlayer zp : zonePlayers) {
                 if (zp.getId().equals(id))
@@ -117,7 +110,7 @@ public class Sonos implements Closeable {
         }
     }
 
-    public ZonePlayer getZonePlayerByUDN(String udn) {
+    private ZonePlayer getZonePlayerByUDN(String udn) {
         for (ZonePlayer zone : zonePlayers) {
             if (zone.getRootDevice().getIdentity().getUdn().getIdentifierString().equals(udn))
                 return zone;
@@ -126,11 +119,11 @@ public class Sonos implements Closeable {
     }
 
 
-    public boolean isZonePlayerAlreadyDefined(String udn) {
+    private boolean isZonePlayerAlreadyDefined(String udn) {
         return getZonePlayerByUDN(udn) != null;
     }
 
-    public void removeZonePlayer(String udn) {
+    private void removeZonePlayer(String udn) {
         synchronized (zonePlayers) {
             ZonePlayer zp = getZonePlayerByUDN(udn);
             if (zp != null) {
@@ -141,14 +134,17 @@ public class Sonos implements Closeable {
         }
     }
 
-    public void close() {
+    public synchronized void close() {
         log.info("Shutting down UPNP services and discovery");
         upnpService.shutdown();
         log.info("Cleaning up internal resources");
-        dispose();
+        synchronized (zonePlayers) {
+            for (ZonePlayer zp : zonePlayers)
+                zp.dispose();
+        }
     }
 
-    public void startDiscovery() {
+    private void startDiscovery() {
         upnpService = new UpnpServiceImpl(listener);
         // Send a search message to all devices and services, they should respond soon
         UDAServiceType udaType = new UDAServiceType(SonosConstants.AV_TRANSPORT);
@@ -163,7 +159,6 @@ public class Sonos implements Closeable {
      * The listener.
      */
     private RegistryListener listener = new DefaultRegistryListener() {
-
         @Override
         public void remoteDeviceAdded(Registry registry, RemoteDevice device) {
             if (isSonosDevice(device))
@@ -180,7 +175,7 @@ public class Sonos implements Closeable {
         }
     };
 
-    public ZonePlayer getCoordinator(final ZonePlayer zp) {
+    private ZonePlayer getCoordinator(final ZonePlayer zp) {
         if ((zp == null) || (zp.getZoneGroupTopologyService().getGroupState() == null)) {
             return zp;
         }
@@ -191,11 +186,11 @@ public class Sonos implements Closeable {
         return zp;
     }
 
-    public void enqueue(ZonePlayer player, String url) {
+    public synchronized void enqueue(ZonePlayer player, String url) {
         getCoordinator(player).enqueueEntry(EntryHelper.createEntryForUrl(url));
     }
 
-    public Iterable<Entry> browse(final ZonePlayer player, String type) throws SonosException {
+    public synchronized Iterable<Entry> browse(final ZonePlayer player, String type) {
         EntryCollector collector = new EntryCollector();
         BrowseHandle handle = player.getMediaServerDevice()
                 .getContentDirectoryService()
@@ -211,99 +206,110 @@ public class Sonos implements Closeable {
         return collector.getEntries();
     }
 
-    public Iterable<Entry> browseArtists(final ZonePlayer player) throws SonosException {
+    public synchronized Iterable<Entry> browseArtists(final ZonePlayer player) {
         return browse(player, "A:ARTIST");
     }
 
-    public void crossFade(ZonePlayer player, boolean crossfade) {
+    public synchronized void crossFade(ZonePlayer player, boolean crossfade) {
         player.getMediaRendererDevice().getRenderingControlService().setCrossFade(crossfade);
     }
 
-    public List<String> getZoneNames() {
+    public synchronized List<String> getZoneNames() {
         List<String> zones = Lists.newArrayList();
         for (ZonePlayer player : zonePlayers)
             zones.add(getZoneName(player));
         return zones;
     }
 
-    private String getZoneName(ZonePlayer player) {
+    private synchronized String getZoneName(ZonePlayer player) {
         return player.getDevicePropertiesService().getZoneAttributes().getName();
     }
 
-    public String getInfo(ZonePlayer player) {
+    public synchronized String getInfo(ZonePlayer player) {
         return RemoteDeviceHelper.dumpRemoteDevice(player.getRootDevice());
     }
 
-    public void lineIn(ZonePlayer player) {
+    public synchronized void lineIn(ZonePlayer player) {
         // TODO doesn't look right
         player.getMediaRendererDevice().getRenderingControlService().setMute(false);
         player.getMediaRendererDevice().getAvTransportService().play();
     }
 
-    public void moveTracks(ZonePlayer player, int startAt, int count, int insertBefore) {
+    public synchronized void moveTracks(ZonePlayer player, int startAt, int count, int insertBefore) {
         player.getMediaRendererDevice().getAvTransportService()
                 .reorderTracksInQueue(startAt, count, insertBefore);
     }
 
-    public void mute(ZonePlayer player, boolean mute) {
+    public synchronized void mute(ZonePlayer player, boolean mute) {
         player.getMediaRendererDevice().getRenderingControlService().setMute(mute);
     }
 
-    public void next(ZonePlayer player) {
+    public synchronized void next(ZonePlayer player) {
         player.getMediaRendererDevice().getAvTransportService().next();
     }
 
-    public void previous(ZonePlayer player) {
+    public synchronized void previous(ZonePlayer player) {
         player.getMediaRendererDevice().getAvTransportService().previous();
     }
 
-    public void pause(ZonePlayer player) {
+    public synchronized void pause(ZonePlayer player) {
         player.getMediaRendererDevice().getAvTransportService().pause();
     }
 
-    public void play(ZonePlayer player) {
+    public synchronized void play(ZonePlayer player) {
         player.getMediaRendererDevice().getAvTransportService().play();
     }
 
-    public void remove(ZonePlayer player, String url) {
+    public synchronized void play(ZonePlayer player, String url) {
+        player.enqueueAndPlayEntry(EntryHelper.createEntryForUrl(url));
+    }
+
+    public synchronized void remove(ZonePlayer player, String url) {
         player.getMediaRendererDevice().getAvTransportService()
                 .removeTrackFromQueue(EntryHelper.createEntryForUrl(url));
     }
 
-    public void clearQueue(ZonePlayer player) {
+    public synchronized void clearQueue(ZonePlayer player) {
         player.getMediaRendererDevice().getAvTransportService()
                 .clearQueue();
     }
 
-    public void saveQueue(ZonePlayer player, String title) {
+    public synchronized void saveQueue(ZonePlayer player, String title) {
         player.getMediaRendererDevice().getAvTransportService().saveQueue(title, "");
     }
 
-    public void saveQueue(ZonePlayer player, String title, String playlistId) {
+    public synchronized void saveQueue(ZonePlayer player, String title, String playlistId) {
         player.getMediaRendererDevice().getAvTransportService().saveQueue(title, playlistId);
     }
 
-    public void shuffle(ZonePlayer player, boolean shuffle) {
+    public synchronized void shuffle(ZonePlayer player, boolean shuffle) {
         player.getMediaRendererDevice().getAvTransportService().setPlayMode(shuffle ? PlayMode.SHUFFLE_NOREPEAT : PlayMode.NORMAL);
     }
 
-    public void track(ZonePlayer player, int track) {
+    public synchronized void track(ZonePlayer player, int track) {
         SeekTarget target = new SeekTarget(SeekMode.TRACK_NR, Integer.toString(track));
         player.getMediaRendererDevice().getAvTransportService().seek(target);
     }
 
-    public int volume(ZonePlayer player) {
+    public synchronized int volume(ZonePlayer player) {
         return player.getMediaRendererDevice().getRenderingControlService().getVolume();
     }
 
-    public void setVolume(ZonePlayer player, int volume) {
-        player.getMediaRendererDevice().getRenderingControlService().setVolume(volume);
+    public synchronized void setVolume(ZonePlayer player, int volume) {
+        // Seem to be unreliable, so we set and verify as many times as needed
+        volume = Math.max(0, Math.min(100, volume));
+        int tries = MAX_TRIES;
+        while (tries-- != 0) {
+            player.getMediaRendererDevice().getRenderingControlService().setVolume(volume);
+            if (volume(player) == volume)
+                return;
+        }
+        log.warn("Failed to set volume to: " + volume + " in zone " + getZoneName(player));
     }
 
-    public void adjustVolume(ZonePlayer player, int volumeChange) {
+    public synchronized void adjustVolume(ZonePlayer player, int volumeChange) {
         int volume = player.getMediaRendererDevice().getRenderingControlService().getVolume();
         volume = volume + volumeChange;
-        volume = Math.max(0, Math.min(100, volume));
-        player.getMediaRendererDevice().getRenderingControlService().setVolume(volume);
+        setVolume(player, volume);
     }
 }
