@@ -20,6 +20,7 @@ import org.tensin.sonos.helpers.RemoteDeviceHelper;
 import org.tensin.sonos.helpers.TimeUtilities;
 import org.tensin.sonos.model.*;
 import org.tensin.sonos.xml.ResultParser;
+import org.tensin.sonos.xml.ZoneGroupStateHandler;
 
 import java.io.Closeable;
 import java.util.ArrayList;
@@ -177,11 +178,15 @@ public class Sonos implements Closeable {
         }
     };
 
-    private ZonePlayer getCoordinator(final ZonePlayer zp) {
-        if ((zp == null) || (zp.getZoneGroupTopologyService().getGroupState() == null)) {
+    private ZonePlayer getCoordinator(ZonePlayer zp) {
+        if (zp == null)
+            return null;
+
+        ZoneGroupTopology.GetZoneGroupStateResponse response = getZoneGroupTopology(zp).getZoneGroupState().execute();
+        ZoneGroupState state = ResultParser.getGroupStateFromResult(response.zoneGroupState());
+        if (state == null)
             return zp;
-        }
-        for (final ZoneGroup zg : zp.getZoneGroupTopologyService().getGroupState().getGroups()) {
+        for (final ZoneGroup zg : state.getGroups()) {
             if (zg.getMembers().contains(zp.getId()))
                 return getZonePlayerById(zg.getCoordinator());
         }

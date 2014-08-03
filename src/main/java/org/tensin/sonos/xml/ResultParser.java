@@ -75,18 +75,21 @@ public class ResultParser {
      * @throws SAXException
      *             the sAX exception
      */
-    public static ZoneGroupState getGroupStateFromResult(final String xml) throws SAXException {
-        XMLReader reader = XMLReaderFactory.createXMLReader();
-        ZoneGroupStateHandler handler = new ZoneGroupStateHandler();
-        reader.setContentHandler(handler);
+    public static ZoneGroupState getGroupStateFromResult(final String xml) {
+        if (xml == null)
+            return null;
         try {
+            XMLReader reader = XMLReaderFactory.createXMLReader();
+            ZoneGroupStateHandler handler = new ZoneGroupStateHandler();
+            reader.setContentHandler(handler);
             reader.parse(new InputSource(new StringReader(xml)));
-        } catch (IOException e) {
-            // This should never happen - we're not performing I/O!
-            LOGGER.error("Could not parse group state: ", e);
-        }
 
-        return new ZoneGroupState(handler.getGroups());
+            return new ZoneGroupState(handler.getGroups());
+        } catch (SAXException e) {
+            throw new SonosException(e);
+        } catch (IOException e) {
+            throw new SonosException(e);
+        }
 
     }
 

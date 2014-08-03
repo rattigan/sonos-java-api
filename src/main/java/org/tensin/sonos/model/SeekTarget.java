@@ -12,15 +12,13 @@
  */
 package org.tensin.sonos.model;
 
-import org.tensin.sonos.control.AVTransportService;
-
 /**
  * Specifies a target for the {@link AVTransportService#seek(SeekTarget)} method.
- * 
+ *
  * @see SeekTargetFactory
  * @author David WHEELER
  * @author Serge SIMON
- * 
+ *
  */
 public class SeekTarget {
 
@@ -32,7 +30,7 @@ public class SeekTarget {
 
     /**
      * Instantiates a new seek target.
-     * 
+     *
      * @param mode
      *            the mode
      * @param target
@@ -45,7 +43,7 @@ public class SeekTarget {
 
     /**
      * Gets the seek mode.
-     * 
+     *
      * @return the seek mode
      */
     public String getSeekMode() {
@@ -54,7 +52,7 @@ public class SeekTarget {
 
     /**
      * Gets the target.
-     * 
+     *
      * @return the target
      */
     public String getTarget() {
