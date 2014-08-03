@@ -14,6 +14,8 @@ package org.tensin.sonos.helpers;
 
 import org.tensin.sonos.model.Entry;
 
+import java.text.MessageFormat;
+
 /**
  * The Class EntryHelper.
  *
@@ -21,6 +23,14 @@ import org.tensin.sonos.model.Entry;
  * @author Serge SIMON
  */
 public final class EntryHelper {
+
+    /** The format for a metadata tag: 0: id 1: parent id 2: title 3: upnp:class. */
+    private static final MessageFormat METADATA_FORMAT = new MessageFormat("<DIDL-Lite xmlns:dc=\"http://purl.org/dc/elements/1.1/\" "
+            + "xmlns:upnp=\"urn:schemas-upnp-org:metadata-1-0/upnp/\" " + "xmlns:r=\"urn:schemas-rinconnetworks-com:metadata-1-0/\" "
+            + "xmlns=\"urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/\">" + "<item id=\"{0}\" parentID=\"{1}\" restricted=\"true\">" + "<dc:title>{2}</dc:title>"
+            + "<upnp:class>{3}</upnp:class>" + "<desc id=\"cdudn\" nameSpace=\"urn:schemas-rinconnetworks-com:metadata-1-0/\">"
+            + "RINCON_AssociatedZPUDN</desc>" + "</item></DIDL-Lite>");
+
 
     /**
      * Creates an Entry for the given url.
@@ -41,4 +51,14 @@ public final class EntryHelper {
         }
         return new Entry("URL:" + url, url, "URL:", "URL", "", "", "object.item.audioItem.audioBroadcast", res, "");
     }
+
+    public static String compileMetadataString(final Entry entry) {
+        // Not too sure what's up with this, but it doesn't seem to like having long upnp class names
+        String upnpClass = entry.getUpnpClass();
+        if (upnpClass.startsWith("object.container")) {
+            upnpClass = "object.container";
+        }
+        return METADATA_FORMAT.format(new Object[] { entry.getId(), entry.getParentId(), entry.getTitle(), upnpClass });
+    }
+
 }

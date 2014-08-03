@@ -20,9 +20,6 @@ public final class SonosConstants {
     /** The Constant SONOS_DEFAULT_RPC_PORT. */
     public static final int SONOS_DEFAULT_RPC_PORT = 1400;
 
-    /** The Constant NEWLINE. */
-    public static final String NEWLINE = "\n";
-
     /** The Constant AV_TRANSPORT. */
     public static final String AV_TRANSPORT = "AVTransport";
 

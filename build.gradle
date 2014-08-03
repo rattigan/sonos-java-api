@@ -1,9 +1,21 @@
+import com.google.common.base.CaseFormat
+import groovy.io.FileType
+
 apply plugin: 'java'
 apply plugin: 'maven'
 
 archivesBaseName = "sonos-api"
 group = 'org.rattigan.sonos'
 version = '0.1.0'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.google.guava:guava:17.+'
+    }
+}
 
 repositories {
     mavenCentral()
@@ -31,3 +43,286 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
+task generateServiceWrappers {
+    generateServiceWrappers()
+}
+
+void generateServiceWrappers() {
+    def services = [:]
+    def serviceDescriptors = []
+
+    new File(projectDir, 'descriptors').eachFileRecurse(FileType.FILES) { file ->
+        if (!file.name == 'device_description.xml')
+            return;
+        def xml = new XmlSlurper().parseText(file.text)
+        def serviceXmls = xml.depthFirst().findAll{it.name() == 'serviceList'}*.service
+
+        serviceXmls.each{ serviceList ->
+            serviceList.each {
+                serviceDescriptors << [filename: it.SCPDURL, id: it.serviceId]
+            }
+        }
+    }
+
+    serviceDescriptors.each { descriptor ->
+        String filename = descriptor.filename
+        String id = descriptor.id
+        def file = new File(new File(projectDir, 'descriptors'), filename);
+        if (!file.name.endsWith('xml'))
+            return;
+        service = [id: id]
+        def serviceName = id.substring(id.lastIndexOf(':') + 1)
+        services[serviceName] = service
+        service.name = serviceName
+        def xml = new XmlSlurper().parseText(file.text)
+        def vars = [:]
+        service.vars = vars
+        xml.serviceStateTable.stateVariable.each { varXml ->
+            def var = [:]
+            def stateName = varXml.name.text()
+            vars[stateName] = var
+            var.name = stateName
+            var.argType = stateName.startsWith('A_ARG_TYPE_')
+            var.events = varXml.@sendEvents == 'yes'
+            if (varXml.allowedValueList.size())
+                var.enumValues = varXml.allowedValueList.allowedValue*.text()
+            var.type = varXml.dataType.text()
+        }
+
+        def actions = []
+        service.actions = actions
+        xml.actionList.action.each { actionXml ->
+            def action = [:]
+            def name = actionXml.name.text()
+            actions << action
+            action.name = name
+            def args = []
+            actionXml.argumentList.argument.each { argXml ->
+                def arg = [:]
+                def argName = argXml.name.text()
+                args << arg
+                arg.name = argName
+                arg.in = argXml.direction.text() == 'in'
+                arg.var = vars[argXml.relatedStateVariable.text()]
+                assert arg.var
+            }
+            action.in = args.findAll{it.in}
+            action.out = args.findAll{!it.in}
+        }
+    }
+    services.each { name, service ->
+        File output = new File(projectDir, "src/main/java/org/tensin/sonos/gen/${name}.java")
+
+        def enumTexts = []
+        def requestTexts = []
+        def responseTexts = []
+        def actionTexts = []
+        for (entry in service.vars) {
+            def var = entry.value
+            if (!var.enumValues)
+                continue;
+            assert var.type == 'string'
+
+            // prefix numeric constants with _
+            def enumValues = var.enumValues.collect{it ==~ /[0-9].*/ ? '_'+it : it}
+            // flag for later use
+            var.numeric = enumValues != var.enumValues
+            def enumName = getJavaType(var)
+            def enumText = """
+    public enum $enumName {${enumValues.join(', ')}}
+"""
+            enumTexts << enumText
+        }
+        for (action in service.actions) {
+            String actionName = action.name
+            String actionRequestClassName = action.name + 'Request'
+            String actionResponseClassName = action.name + 'Response'
+            if (!action.out)
+                actionResponseClassName = 'void'
+            String actionMethodName = fixAcronyms(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, action.name))
+            String parameterList = []
+            def actionText = """
+    public $actionRequestClassName $actionMethodName(${parameterList.join(',')}) {
+        return new $actionRequestClassName();
+    }
+"""
+            actionTexts << actionText
+            def requestFields = []
+            def requestSetters = []
+            def setInputParameters = []
+            for (arg in action.in) {
+                def javaType = getJavaType(arg.var)
+                def javaParamName = fixAcronyms(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, arg.name))
+                def requestField = """
+        private $javaType $javaParamName;
+"""
+                requestFields << requestField
+                def requestSetter = """
+        public $actionRequestClassName $javaParamName($javaType $javaParamName) {
+            this.$javaParamName = $javaParamName;
+            return this;
+        }
+"""
+                requestSetters << requestSetter
+
+                def wrapExpression = getWrapExpression(arg.var, "this.$javaParamName")
+                def setInputParameter = """
+            invocation.setInput("$arg.name", $wrapExpression);
+"""
+                setInputParameters << setInputParameter
+            }
+            def responseFields = []
+            def responseGetters = []
+            def getOutputParameters = []
+            for (arg in action.out) {
+                def javaType = getJavaType(arg.var)
+                def javaParamName = fixAcronyms(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, arg.name))
+                def responseField = """
+        private $javaType $javaParamName;
+"""
+                responseFields << responseField;
+                def responseGetter = """
+        public $javaType $javaParamName() {
+            return $javaParamName;
+        }
+"""
+                responseGetters << responseGetter
+
+                def getOutputParameter = """
+            response.$javaParamName = ServiceHelper._$arg.var.type(invocation, "$arg.name");
+"""
+                if (arg.var.enumValues) {
+                    getOutputParameter = """
+            response.$javaParamName = ServiceHelper._$arg.var.type(invocation, "$arg.name", ${javaType}.class);
+"""
+                }
+
+                getOutputParameters << getOutputParameter
+            }
+
+            def returnValue = """
+            $actionResponseClassName response = new $actionResponseClassName();
+            ${getOutputParameters.join()}
+            return response;
+"""
+            if (!action.out)
+                returnValue = ''
+            def requestText = """
+    public class $actionRequestClassName {
+        ${requestFields.join()}
+        ${requestSetters.join()}
+        public $actionResponseClassName execute() {
+            Action action = service.getAction("$actionName");
+            ActionInvocation invocation = new ActionInvocation(action);
+            ${setInputParameters.join()}
+            new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
+            if (invocation.getFailure() != null)
+                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+            $returnValue
+        }
+    }
+"""
+            requestTexts << requestText
+
+            def responseText = """
+    public class $actionResponseClassName {
+        ${responseFields.join()}
+        ${responseGetters.join()}
+    }
+"""
+            if (action.out)
+                responseTexts << responseText
+        }
+
+        String serviceId = service.id
+        String text = """package org.tensin.sonos.gen;
+
+import org.teleal.cling.model.meta.Service;
+import org.teleal.cling.model.meta.Action;
+import org.teleal.cling.model.action.ActionInvocation;
+import org.teleal.cling.controlpoint.ActionCallback;
+import org.teleal.cling.UpnpService;
+import org.teleal.cling.model.meta.RemoteDevice;
+import org.tensin.sonos.helpers.RemoteDeviceHelper;
+import org.tensin.sonos.helpers.ServiceHelper;
+import org.teleal.cling.model.types.UnsignedIntegerFourBytes;
+import org.teleal.cling.model.types.UnsignedIntegerTwoBytes;
+import org.tensin.sonos.SonosException;
+
+
+public class $name {
+    private Service service;
+    private UpnpService upnpService;
+
+    public $name(UpnpService upnpService, RemoteDevice device) {
+        this.upnpService = upnpService;
+        this.service = RemoteDeviceHelper.findService(device, "$serviceId");
+    }
+    ${enumTexts.join()}
+    ${actionTexts.join()}
+    ${requestTexts.join()}
+    ${responseTexts.join()}
+}
+"""
+
+        output.setText(text, 'UTF-8');
+    }
+}
+
+String getJavaType(Map var) {
+    if (var.enumValues)
+        return var.name.replace('A_ARG_TYPE_', '');
+    switch (var.type) {
+        case 'string': return 'String'
+        case 'i4': return 'int'
+        case 'ui4': return 'int'
+        case 'i2': return 'int'
+        case 'ui2': return 'int'
+        case 'boolean': return 'boolean'
+        default: throw new RuntimeException(var.type)
+    }
+}
+
+String getWrapExpression(Map var, String expression) {
+    switch (var.type) {
+        case 'string':
+            if (!var.enumValues)
+                return expression
+            // remove underscore prefix for numeric enums
+            if (var.numeric)
+                return "(${expression}).toString().substring(1)"
+            return expression
+        case 'i4': return expression
+        case 'ui4': return "new UnsignedIntegerFourBytes($expression)"
+        case 'i2': return expression
+        case 'ui2': return "new UnsignedIntegerTwoBytes($expression)"
+        case 'boolean': return expression
+        default: println "Unsupported type: $var.type"; throw new RuntimeException(var.type)
+    }
+}
+
+String getUnwrapExpression(Map arg) {
+    return
+    switch (arg.var.type) {
+
+        case 'string': return "getString(String)invocation.getOutput(\"$arg.name\").getValue()"
+        case 'i4': return "(Integer)invocation.getOutput(\"$arg.name\").getValue().getValue()"
+        case 'ui4': return "(Integer)invocation.getOutput(\"$arg.name\").getValue().getValue()"
+        case 'i2': return "(Integer)invocation.getOutput(\"$arg.name\").getValue().getValue()"
+        case 'ui2': return "(Integer)invocation.getOutput(\"$arg.name\").getValue().getValue()"
+        case 'boolean': "(Boolean)invocation.getOutput(\"$arg.name\").getValue()"
+        default: println "Unsupported type: $var.type"; throw new RuntimeException(var.type)
+    }
+}
+
+String getCastType(String javaType) {
+    switch (javaType) {
+        case 'int': return 'Integer'
+        case 'boolean': return 'Boolean'
+        default: return javaType
+    }
+}
+
+String fixAcronyms(String str) {
+    str.replaceAll('(\\p{Upper}+)((?=\\p{Upper}\\p{Lower})?)', '$1$2')
+}

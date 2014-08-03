@@ -27,16 +27,16 @@ import org.tensin.sonos.model.TransportInfo.TransportState;
 /**
  * Corresponds to a physical Zone Player, and gives access all the devices and
  * services that a Zone Player has.
- * 
+ *
  * @author David WHEELER
  * @author Serge SIMON
- * 
+ *
  */
 public class ZonePlayer {
 
     /**
      * Find child device.
-     * 
+     *
      * @param device
      *            the device
      * @param type
@@ -88,7 +88,7 @@ public class ZonePlayer {
     /**
      * Creates a new sonos device around the given RemoteDevice. This device
      * must be a sonos device
-     * 
+     *
      * @param upnpService
      *            the upnp service
      * @param dev
@@ -118,7 +118,7 @@ public class ZonePlayer {
 
     /**
      * Creates a new URL by appending the given string to this zonePlayer's attributes.
-     * 
+     *
      * @param url
      *            the url to append, eg "/images/image1.png"
      * @return the complete url eg "http://192.168.0.1:1400/images/image1.png"
@@ -145,7 +145,7 @@ public class ZonePlayer {
 
     /**
      * Enqueues the given entry, skips to it and ensure the zone is playing.
-     * 
+     *
      * @param entry
      *            the entry
      *            @ * Signals that an I/O exception has occurred.
@@ -156,10 +156,10 @@ public class ZonePlayer {
 
     /**
      * Adds the given entry to the play queue for this zone player.
-     * 
+     *
      * NOTE: this should only be called if this zone player is the zone group
      * coordinator.
-     * 
+     *
      * @param entry
      *            the entry to enqueue.
      * @return the int
@@ -173,7 +173,7 @@ public class ZonePlayer {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -190,7 +190,7 @@ public class ZonePlayer {
 
     /**
      * Gets the alarm service.
-     * 
+     *
      * @return the AlarmClockService for this zone player.
      */
     public AlarmClockService getAlarmService() {
@@ -199,7 +199,7 @@ public class ZonePlayer {
 
     /**
      * Gets the audio in service.
-     * 
+     *
      * @return the audio in service for this zone player.
      */
     public AbstractAudioInService getAudioInService() {
@@ -208,7 +208,7 @@ public class ZonePlayer {
 
     /**
      * Gets the device properties service.
-     * 
+     *
      * @return the DeviceProperties service for this zone player
      */
     public DevicePropertiesService getDevicePropertiesService() {
@@ -217,7 +217,7 @@ public class ZonePlayer {
 
     /**
      * Gets the id.
-     * 
+     *
      * @return A string of characters identifying this sonos to other sonos
      */
     public String getId() {
@@ -226,7 +226,7 @@ public class ZonePlayer {
 
     /**
      * Gets the ip.
-     * 
+     *
      * @return the IP address for this zone player.
      */
     public InetAddress getIP() {
@@ -237,7 +237,7 @@ public class ZonePlayer {
 
     /**
      * Gets the media renderer device.
-     * 
+     *
      * @return a RemoteDevice of type MediaRenderer, from our sonos object.
      */
     public MediaRendererDevice getMediaRendererDevice() {
@@ -246,7 +246,7 @@ public class ZonePlayer {
 
     /**
      * Gets the media server device.
-     * 
+     *
      * @return a SonosMediaServerDevice for our zone player.
      */
     public MediaServerDevice getMediaServerDevice() {
@@ -255,7 +255,7 @@ public class ZonePlayer {
 
     /**
      * Gets the port.
-     * 
+     *
      * @return the port for HTTP requests to this zone player.
      */
     public int getPort() {
@@ -264,7 +264,7 @@ public class ZonePlayer {
 
     /**
      * Gets the root device.
-     * 
+     *
      * @return the RemoteDevice around which this object has been created.
      */
     public RemoteDevice getRootDevice() {
@@ -273,7 +273,7 @@ public class ZonePlayer {
 
     /**
      * Gets the system properties service.
-     * 
+     *
      * @return system properties service for this zone player.
      */
     public SystemPropertiesService getSystemPropertiesService() {
@@ -282,7 +282,7 @@ public class ZonePlayer {
 
     /**
      * Gets the zone group management service.
-     * 
+     *
      * @return the zone group management service for this player.
      */
     public ZoneGroupManagementService getZoneGroupManagementService() {
@@ -291,7 +291,7 @@ public class ZonePlayer {
 
     /**
      * Gets the zone group topology service.
-     * 
+     *
      * @return the zone group topology service for this zone player.
      */
     public ZoneGroupTopologyService getZoneGroupTopologyService() {
@@ -300,7 +300,7 @@ public class ZonePlayer {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -310,7 +310,7 @@ public class ZonePlayer {
 
     /**
      * Seeks to the given entry in the queue (0 is the first entry in the queue).
-     * 
+     *
      * @param index
      *            the index
      *            @ * Signals that an I/O exception has occurred.

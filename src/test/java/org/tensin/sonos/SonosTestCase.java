@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tensin.sonos.commander.Sonos;
 import org.tensin.sonos.control.ZonePlayer;
+import org.tensin.sonos.helpers.RemoteDeviceHelper;
 import org.tensin.sonos.model.Entry;
 
 import java.util.List;
@@ -53,8 +54,9 @@ public class SonosTestCase {
      */
     @Test
     public void testList() {
-        String[] types = {"A:", "S:", "Q", "Q:0", "SQ:", "R:", "EN:"};//, "S://server_smb/Sara", "A:PLAYLISTS", "A:TRACKS"};
+        String[] types = {"A:", "S:", /*"Q",*/ "Q:0", "SQ:", /*"R:",*/ "EN:"};//, "S://server_smb/Sara", "A:PLAYLISTS", "A:TRACKS"};
         for (String type : types) {
+            log.info("Browsing " + type);
             Iterable<Entry> entries = sonos.browse(sonos.getPlayer(ZONE1), type);
             dumpEntries(entries);
         }
@@ -101,7 +103,7 @@ public class SonosTestCase {
     }
 
     @Test
-    public void testVolume() throws InterruptedException {
+    public void testVolume() {
         ZonePlayer player = sonos.getPlayer(ZONE1);
         sonos.setVolume(player, 20);
         //log.info("" + sonos.volume(player));
@@ -112,6 +114,11 @@ public class SonosTestCase {
         assert sonos.volume(player) == 20;
         sonos.adjustVolume(player, -10);
         assert sonos.volume(player) == 10;
+    }
+
+    @Test
+    public void testDeviceDump() {
+        log.info(RemoteDeviceHelper.dumpRemoteDevice(sonos.getPlayer(ZONE1).getRootDevice()));
     }
 
 //    /**

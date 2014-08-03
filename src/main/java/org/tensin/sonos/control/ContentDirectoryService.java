@@ -12,8 +12,6 @@
  */
 package org.tensin.sonos.control;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.teleal.cling.UpnpService;
@@ -21,14 +19,14 @@ import org.teleal.cling.model.meta.Service;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.model.Entry;
 import org.tensin.sonos.xml.ResultParser;
-import org.xml.sax.SAXException;
+
+import java.util.List;
 
 /**
  * Allows the listing and searching of the audio content of a zone player.
  *
  * @author David WHEELER
  * @author Serge SIMON
- *
  */
 public class ContentDirectoryService extends AbstractService {
 
@@ -37,22 +35,26 @@ public class ContentDirectoryService extends AbstractService {
      */
     private final class AsyncBrowser implements Runnable, BrowseHandle {
 
-        /** The type. */
+        /**
+         * The type.
+         */
         private final String type;
 
-        /** The callback. */
+        /**
+         * The callback.
+         */
         private final EntryCallback callback;
 
-        /** The is cancelled. */
+        /**
+         * The is cancelled.
+         */
         private boolean isCancelled = false;
 
         /**
          * Instantiates a new async browser.
          *
-         * @param type
-         *            the type
-         * @param callback
-         *            the callback
+         * @param type     the type
+         * @param callback the callback
          */
         protected AsyncBrowser(final String type, final EntryCallback callback) {
             this.type = type;
@@ -96,8 +98,6 @@ public class ContentDirectoryService extends AbstractService {
                     }
                 }
                 completedSuccessfully = !isCancelled;
-            } catch (SAXException e) {
-                LOGGER.error("Error while getting content directory", e);
             } finally {
                 callback.retrievalComplete(this, completedSuccessfully);
             }
@@ -110,25 +110,39 @@ public class ContentDirectoryService extends AbstractService {
      */
     public static enum BrowseType {
 
-        /** The Browse direct children. */
+        /**
+         * The Browse direct children.
+         */
         BrowseDirectChildren,
-        /** The Browse metadata. */
+        /**
+         * The Browse metadata.
+         */
         BrowseMetadata;
     }
 
-    /** The Constant DEFAULT_REQUEST_COUNT. */
+    /**
+     * The Constant DEFAULT_REQUEST_COUNT.
+     */
     public static final int DEFAULT_REQUEST_COUNT = 1024;
 
-    /** The Constant DEFAULT_SORT_CRITERIA. */
+    /**
+     * The Constant DEFAULT_SORT_CRITERIA.
+     */
     public static final String DEFAULT_SORT_CRITERIA = "";
 
-    /** The Constant DEFAULT_FILTER_STRING. */
+    /**
+     * The Constant DEFAULT_FILTER_STRING.
+     */
     public static final String DEFAULT_FILTER_STRING = "dc:title,res,dc:creator,upnp:artist,upnp:album";
 
-    /** The Constant DEFAULT_BROWSE_TYPE. */
+    /**
+     * The Constant DEFAULT_BROWSE_TYPE.
+     */
     public static final BrowseType DEFAULT_BROWSE_TYPE = BrowseType.BrowseDirectChildren;
 
-    /** The Constant LOGGER. */
+    /**
+     * The Constant LOGGER.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ContentDirectoryService.class);
 
     // private final ServiceEventHandler serviceEventHandler = new ServiceEventHandler() {
@@ -154,10 +168,8 @@ public class ContentDirectoryService extends AbstractService {
     /**
      * Instantiates a new content directory service.
      *
-     * @param upnpService
-     *            the upnp service
-     * @param service
-     *            the service
+     * @param upnpService the upnp service
+     * @param service     the service
      */
     protected ContentDirectoryService(final UpnpService upnpService, final Service service) {
         super(upnpService, service, ZonePlayerConstants.SONOS_SERVICE_CONTENT_DIRECTORY);
@@ -178,10 +190,8 @@ public class ContentDirectoryService extends AbstractService {
     /**
      * Retrieves a list of Album entries from the device.
      *
-     * @param startAt
-     *            the index of the first entry to be returned.
-     * @param length
-     *            the maximum number of entries to returned.
+     * @param startAt the index of the first entry to be returned.
+     * @param length  the maximum number of entries to returned.
      * @return a List of Entries of maximum size <code>length</code>, or null if the request fails.
      * @throws SonosException
      */
@@ -192,10 +202,8 @@ public class ContentDirectoryService extends AbstractService {
     /**
      * Retrieves all entries of the given type asyncronously, via the given callback.
      *
-     * @param callback
-     *            the callback
-     * @param type
-     *            the type
+     * @param callback the callback
+     * @param type     the type
      * @return A unique handle to this search, allowing cancellation
      */
     public BrowseHandle getAllEntriesAsync(final EntryCallback callback, final String type) {
@@ -211,10 +219,8 @@ public class ContentDirectoryService extends AbstractService {
     /**
      * Retrieves a list of Artist entries from the device.
      *
-     * @param startAt
-     *            the index of the first entry to be returned.
-     * @param length
-     *            the maximum number of entries to returned.
+     * @param startAt the index of the first entry to be returned.
+     * @param length  the maximum number of entries to returned.
      * @return a List of Entries of maximum size <code>length</code>, or null if the request fails.
      * @throws SonosException
      */
@@ -225,12 +231,9 @@ public class ContentDirectoryService extends AbstractService {
     /**
      * Retrieves a list of entries from the device.
      *
-     * @param startAt
-     *            the index of the first entry to be returned.
-     * @param length
-     *            the maximum number of entries to returned.
-     * @param type
-     *            the type of entries to be retrieved eg "A:ARTIST" or "Q:".
+     * @param startAt the index of the first entry to be returned.
+     * @param length  the maximum number of entries to returned.
+     * @param type    the type of entries to be retrieved eg "A:ARTIST" or "Q:".
      * @return a List of Entries of maximum size <code>length</code>, or null if the request fails.
      * @throws SonosException
      */
@@ -241,14 +244,10 @@ public class ContentDirectoryService extends AbstractService {
     /**
      * Retrieves a list of entries from the device.
      *
-     * @param startAt
-     *            the index of the first entry to be returned.
-     * @param length
-     *            the maximum number of entries to returned.
-     * @param type
-     *            the type of entries to be retrieved eg "A:ARTIST" or "Q:".
-     * @param browseType
-     *            the desired browse type
+     * @param startAt    the index of the first entry to be returned.
+     * @param length     the maximum number of entries to returned.
+     * @param type       the type of entries to be retrieved eg "A:ARTIST" or "Q:".
+     * @param browseType the desired browse type
      * @return a List of Entries of maximum size <code>length</code>, or null if the request fails.
      * @throws SonosException
      */
@@ -259,56 +258,40 @@ public class ContentDirectoryService extends AbstractService {
     /**
      * Retrieves a list of entries from the device.
      *
-     * @param startAt
-     *            the index of the first entry to be returned.
-     * @param length
-     *            the maximum number of entries to returned.
-     * @param type
-     *            the type of entries to be retrieved eg "A:ARTIST" or "Q:".
-     * @param browseType
-     *            the desired browse type
-     * @param filterString
-     *            the comma-seperated list of fields to have returned
-     * @param sortCriteria
-     *            the sort criteria, or empty string to use default sort criteria
+     * @param startAt      the index of the first entry to be returned.
+     * @param length       the maximum number of entries to returned.
+     * @param type         the type of entries to be retrieved eg "A:ARTIST" or "Q:".
+     * @param browseType   the desired browse type
+     * @param filterString the comma-seperated list of fields to have returned
+     * @param sortCriteria the sort criteria, or empty string to use default sort criteria
      * @return a List of Entries of maximum size <code>length</code>, or null if the request fails.
      * @throws SonosException
      */
     public List<Entry> getEntries(final int startAt, final int length, final String type, final BrowseType browseType, final String filterString,
-            final String sortCriteria) throws SonosException {
-        try {
-            SonosActionInvocation response = getEntriesImpl(startAt, length, type, browseType, filterString, sortCriteria);
+                                  final String sortCriteria) throws SonosException {
+        SonosActionInvocation response = getEntriesImpl(startAt, length, type, browseType, filterString, sortCriteria);
 
-            // LOGGER.debug("response value types: " + response.getOutActionArgumentNames());
-            LOGGER.info("Returned " + response.getOutputAsString("NumberReturned") + " of " + response.getOutputAsString("TotalMatches") + " results.");
-            String result = response.getOutputAsString("Result");
-            LOGGER.debug(result);
-            return ResultParser.getEntriesFromStringResult(result);
-        } catch (SAXException e) {
-            throw new SonosException(e);
-        }
+        // LOGGER.debug("response value types: " + response.getOutActionArgumentNames());
+        LOGGER.info("Returned " + response.getOutputAsString("NumberReturned") + " of " + response.getOutputAsString("TotalMatches") + " results.");
+        String result = response.getOutputAsString("Result");
+        LOGGER.debug(result);
+        return ResultParser.getEntriesFromStringResult(result);
     }
 
     /**
      * Performs a getEntries request, returning the response.
      *
-     * @param startAt
-     *            the index of the first entry to be returned.
-     * @param length
-     *            the maximum number of entries to returned.
-     * @param type
-     *            the type of entries to be retrieved eg "A:ARTIST" or "Q:".
-     * @param browseType
-     *            either "BrowseMetadata" or "BrowseDirectChildren"
-     * @param filter
-     *            a filter on the returned results
-     * @param sortCriteria
-     *            how to sort the returned results
+     * @param startAt      the index of the first entry to be returned.
+     * @param length       the maximum number of entries to returned.
+     * @param type         the type of entries to be retrieved eg "A:ARTIST" or "Q:".
+     * @param browseType   either "BrowseMetadata" or "BrowseDirectChildren"
+     * @param filter       a filter on the returned results
+     * @param sortCriteria how to sort the returned results
      * @return the ActionResponse retured from the Sonos unit
-     *         @ * if a network error prevents communications
+     * @ * if a network error prevents communications
      */
     protected SonosActionInvocation getEntriesImpl(final int startAt, final int length, final String type, final BrowseType browseType, final String filter,
-            final String sortCriteria) {
+                                                   final String sortCriteria) {
         SonosActionInvocation browseAction = messageFactory.getMessage(getService(), "Browse");
         browseAction.setInput("ObjectID", type);
         browseAction.setInput("BrowseFlag", String.valueOf(browseType));
@@ -323,10 +306,8 @@ public class ContentDirectoryService extends AbstractService {
     /**
      * Retrieves a list of root level entries from the device.
      *
-     * @param startAt
-     *            the index of the first entry to be returned.
-     * @param length
-     *            the maximum number of entries to returned.
+     * @param startAt the index of the first entry to be returned.
+     * @param length  the maximum number of entries to returned.
      * @return a List of Entries of maximum size <code>length</code>, or null if the request fails.
      * @throws SonosException
      */
@@ -337,10 +318,8 @@ public class ContentDirectoryService extends AbstractService {
     /**
      * Retrieves a list of Track entries from the device, representing the current queue.
      *
-     * @param startAt
-     *            the index of the first entry to be returned.
-     * @param length
-     *            the maximum number of entries to returned.
+     * @param startAt the index of the first entry to be returned.
+     * @param length  the maximum number of entries to returned.
      * @return a List of Entries of maximum size <code>length</code>, or null if the request fails.
      * @throws SonosException
      */
@@ -363,37 +342,29 @@ public class ContentDirectoryService extends AbstractService {
     /**
      * Gets the single entry.
      *
-     * @param type
-     *            the type
+     * @param type the type
      * @return the entry given by type, or null if it could not be retrieved
      * @throws SonosException
      */
     public Entry getSingleEntry(final String type) throws SonosException {
-        try {
-            SonosActionInvocation response = getEntriesImpl(0, 1, type, BrowseType.BrowseMetadata, DEFAULT_FILTER_STRING, DEFAULT_SORT_CRITERIA);
-            // LOGGER.debug("response value types: " + response.getOutActionArgumentNames());
-            LOGGER.info("Returned " + response.getOutputAsString("NumberReturned") + " of " + response.getOutputAsString("TotalMatches") + " results.");
-            String result = response.getOutputAsString("Result");
-            LOGGER.debug(result);
-            List<Entry> entries = ResultParser.getEntriesFromStringResult(result);
-            if (entries.size() > 0) {
-                return entries.get(0);
-            } else {
-                return null;
-            }
-        } catch (SAXException e) {
-            throw new SonosException(e);
+        SonosActionInvocation response = getEntriesImpl(0, 1, type, BrowseType.BrowseMetadata, DEFAULT_FILTER_STRING, DEFAULT_SORT_CRITERIA);
+        // LOGGER.debug("response value types: " + response.getOutActionArgumentNames());
+        LOGGER.info("Returned " + response.getOutputAsString("NumberReturned") + " of " + response.getOutputAsString("TotalMatches") + " results.");
+        String result = response.getOutputAsString("Result");
+        LOGGER.debug(result);
+        List<Entry> entries = ResultParser.getEntriesFromStringResult(result);
+        if (entries.size() > 0) {
+            return entries.get(0);
+        } else {
+            return null;
         }
-
     }
 
     /**
      * Retrieves a list of Track entries from the device.
      *
-     * @param startAt
-     *            the index of the first entry to be returned.
-     * @param length
-     *            the maximum number of entries to returned.
+     * @param startAt the index of the first entry to be returned.
+     * @param length  the maximum number of entries to returned.
      * @return a List of Entries of maximum size <code>length</code>, or null if the request fails.
      * @throws SonosException
      */

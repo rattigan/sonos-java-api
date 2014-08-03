@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tensin.sonos.SonosException;
 import org.tensin.sonos.model.Entry;
 import org.tensin.sonos.model.TrackMetaData;
 import org.tensin.sonos.model.ZoneGroupState;
@@ -49,19 +50,20 @@ public class ResultParser {
      * @throws SAXException
      *             the sAX exception
      */
-    public static List<Entry> getEntriesFromStringResult(final String xml) throws SAXException {
+    public static List<Entry> getEntriesFromStringResult(final String xml) {
         if (xml.isEmpty())
             return Collections.emptyList();
-        XMLReader reader = XMLReaderFactory.createXMLReader();
-        EntryHandler handler = new EntryHandler();
-        reader.setContentHandler(handler);
         try {
+            XMLReader reader = XMLReaderFactory.createXMLReader();
+            EntryHandler handler = new EntryHandler();
+            reader.setContentHandler(handler);
             reader.parse(new InputSource(new StringReader(xml)));
+            return handler.getArtists();
+        } catch (SAXException e) {
+            throw new SonosException(e);
         } catch (IOException e) {
-            // This should never happen - we're not performing I/O!
-            LOGGER.error("Could not parse entries: ", e);
+            throw new SonosException(e);
         }
-        return handler.getArtists();
     }
 
     /**

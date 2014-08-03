@@ -12,12 +12,14 @@ import org.teleal.cling.registry.DefaultRegistryListener;
 import org.teleal.cling.registry.Registry;
 import org.teleal.cling.registry.RegistryListener;
 import org.tensin.sonos.SonosConstants;
-import org.tensin.sonos.control.BrowseHandle;
+import org.tensin.sonos.SonosException;
 import org.tensin.sonos.control.ZonePlayer;
+import org.tensin.sonos.gen.*;
 import org.tensin.sonos.helpers.EntryHelper;
 import org.tensin.sonos.helpers.RemoteDeviceHelper;
 import org.tensin.sonos.helpers.TimeUtilities;
 import org.tensin.sonos.model.*;
+import org.tensin.sonos.xml.ResultParser;
 
 import java.io.Closeable;
 import java.util.ArrayList;
@@ -61,8 +63,8 @@ public class Sonos implements Closeable {
             // - SystemProperties
             // - ZoneGroup
             Collection<String> ignoredDevicesModelName = new ArrayList<String>();
-            ignoredDevicesModelName.add("ZB100");
-            ignoredDevicesModelName.add("BR100");
+//            ignoredDevicesModelName.add("ZB100");
+//            ignoredDevicesModelName.add("BR100");
             for (String ignoredDeviceModelName : ignoredDevicesModelName) {
                 if (dev.getDetails().getModelDetails().getModelNumber().toUpperCase().contains(ignoredDeviceModelName))
                     return null;
@@ -186,34 +188,6 @@ public class Sonos implements Closeable {
         return zp;
     }
 
-    public synchronized void enqueue(ZonePlayer player, String url) {
-        getCoordinator(player).enqueueEntry(EntryHelper.createEntryForUrl(url));
-    }
-
-    public synchronized Iterable<Entry> browse(final ZonePlayer player, String type) {
-        EntryCollector collector = new EntryCollector();
-        BrowseHandle handle = player.getMediaServerDevice()
-                .getContentDirectoryService()
-                .getAllEntriesAsync(collector, type);
-
-        try {
-            synchronized (handle) {
-                handle.wait();
-            }
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        return collector.getEntries();
-    }
-
-    public synchronized Iterable<Entry> browseArtists(final ZonePlayer player) {
-        return browse(player, "A:ARTIST");
-    }
-
-    public synchronized void crossFade(ZonePlayer player, boolean crossfade) {
-        player.getMediaRendererDevice().getRenderingControlService().setCrossFade(crossfade);
-    }
-
     public synchronized List<String> getZoneNames() {
         List<String> zones = Lists.newArrayList();
         for (ZonePlayer player : zonePlayers)
@@ -221,95 +195,205 @@ public class Sonos implements Closeable {
         return zones;
     }
 
-    private synchronized String getZoneName(ZonePlayer player) {
-        return player.getDevicePropertiesService().getZoneAttributes().getName();
-    }
-
     public synchronized String getInfo(ZonePlayer player) {
         return RemoteDeviceHelper.dumpRemoteDevice(player.getRootDevice());
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Facade
+
+    public synchronized AVTransport.AddURIToQueueResponse enqueue(ZonePlayer player, String url) {
+        Entry entry = EntryHelper.createEntryForUrl(url);
+        return getAvTransport(getCoordinator(player))
+                .addURIToQueue()
+                .enqueuedURI(entry.getRes())
+                .enqueuedURIMetaData(EntryHelper.compileMetadataString(entry))
+                .enqueueAsNext(true)
+                .execute();
+    }
+
+    public synchronized Iterable<Entry> browse(final ZonePlayer player, String type) {
+        // TODO paging support
+        ContentDirectory.BrowseResponse response = getContentDirectory(player).browse()
+                .objectID(type)
+                .filter("*")//"dc:title,res,dc:creator,upnp:artist,upnp:album")
+                .browseFlag(ContentDirectory.BrowseFlag.BrowseDirectChildren)
+                .requestedCount(Integer.MAX_VALUE)
+                .execute();
+        String xml = response.result();
+        return ResultParser.getEntriesFromStringResult(xml);
+    }
+
+    public synchronized Iterable<Entry> browseArtists(final ZonePlayer player) {
+        return browse(player, "A:ARTIST");
+    }
+
+    public synchronized void crossFade(ZonePlayer player, boolean crossfade) {
+        getAvTransport(player).setCrossfadeMode().crossfadeMode(crossfade).execute();
+    }
+
+    private synchronized String getZoneName(ZonePlayer player) {
+        return getDeviceProperties(player).getZoneAttributes().execute().currentZoneName();
+    }
+
     public synchronized void lineIn(ZonePlayer player) {
-        // TODO doesn't look right
-        player.getMediaRendererDevice().getRenderingControlService().setMute(false);
-        player.getMediaRendererDevice().getAvTransportService().play();
+        getAudioIn(player).selectAudio().objectID("urn:schemas-upnp-org:service:AudioIn:1");
     }
 
     public synchronized void moveTracks(ZonePlayer player, int startAt, int count, int insertBefore) {
-        player.getMediaRendererDevice().getAvTransportService()
-                .reorderTracksInQueue(startAt, count, insertBefore);
+        getAvTransport(player).reorderTracksInQueue()
+                .startingIndex(startAt)
+                .numberOfTracks(count)
+                .insertBefore(insertBefore)
+                .execute();
     }
 
     public synchronized void mute(ZonePlayer player, boolean mute) {
-        player.getMediaRendererDevice().getRenderingControlService().setMute(mute);
+        getRenderingControl(player).setMute().desiredMute(mute).execute();
     }
 
     public synchronized void next(ZonePlayer player) {
-        player.getMediaRendererDevice().getAvTransportService().next();
+        getAvTransport(player).next().execute();
     }
 
     public synchronized void previous(ZonePlayer player) {
-        player.getMediaRendererDevice().getAvTransportService().previous();
+        getAvTransport(player).previous().execute();
     }
 
     public synchronized void pause(ZonePlayer player) {
-        player.getMediaRendererDevice().getAvTransportService().pause();
+        getAvTransport(player).pause().execute();
     }
 
     public synchronized void play(ZonePlayer player) {
-        player.getMediaRendererDevice().getAvTransportService().play();
+        getAvTransport(player).play().speed(AVTransport.TransportPlaySpeed._1).execute();
     }
 
     public synchronized void play(ZonePlayer player, String url) {
-        player.enqueueAndPlayEntry(EntryHelper.createEntryForUrl(url));
+        track(player, enqueue(player, url).firstTrackNumberEnqueued());
     }
 
     public synchronized void remove(ZonePlayer player, String url) {
-        player.getMediaRendererDevice().getAvTransportService()
-                .removeTrackFromQueue(EntryHelper.createEntryForUrl(url));
+        Entry entry = EntryHelper.createEntryForUrl(url);
+        getAvTransport(player).removeTrackFromQueue()
+        .objectID(entry.getId())
+        .execute();
     }
 
     public synchronized void clearQueue(ZonePlayer player) {
-        player.getMediaRendererDevice().getAvTransportService()
-                .clearQueue();
+        getAvTransport(player).removeAllTracksFromQueue().execute();
     }
 
     public synchronized void saveQueue(ZonePlayer player, String title) {
-        player.getMediaRendererDevice().getAvTransportService().saveQueue(title, "");
+        getAvTransport(player).saveQueue().title(title).execute();
     }
 
     public synchronized void saveQueue(ZonePlayer player, String title, String playlistId) {
-        player.getMediaRendererDevice().getAvTransportService().saveQueue(title, playlistId);
+        getAvTransport(player).saveQueue().title(title).objectID(playlistId);
     }
 
     public synchronized void shuffle(ZonePlayer player, boolean shuffle) {
-        player.getMediaRendererDevice().getAvTransportService().setPlayMode(shuffle ? PlayMode.SHUFFLE_NOREPEAT : PlayMode.NORMAL);
+        getAvTransport(player).setPlayMode()
+                .newPlayMode(shuffle ? AVTransport.CurrentPlayMode.SHUFFLE_NOREPEAT : AVTransport.CurrentPlayMode.NORMAL)
+                .execute();
     }
 
     public synchronized void track(ZonePlayer player, int track) {
-        SeekTarget target = new SeekTarget(SeekMode.TRACK_NR, Integer.toString(track));
-        player.getMediaRendererDevice().getAvTransportService().seek(target);
+        getAvTransport(player).seek()
+                .unit(AVTransport.SeekMode.TRACK_NR)
+                .target("" + track)
+                .execute();
     }
 
     public synchronized int volume(ZonePlayer player) {
-        return player.getMediaRendererDevice().getRenderingControlService().getVolume();
+        return getRenderingControl(player).getVolume().channel(RenderingControl.Channel.Master).execute().currentVolume();
     }
 
     public synchronized void setVolume(ZonePlayer player, int volume) {
+        volume = clampVolume(volume);
         // Seem to be unreliable, so we set and verify as many times as needed
-        volume = Math.max(0, Math.min(100, volume));
         int tries = MAX_TRIES;
         while (tries-- != 0) {
-            player.getMediaRendererDevice().getRenderingControlService().setVolume(volume);
+            getRenderingControl(player).setVolume().desiredVolume(volume).channel(RenderingControl.Channel.Master).execute();
             if (volume(player) == volume)
                 return;
         }
         log.warn("Failed to set volume to: " + volume + " in zone " + getZoneName(player));
     }
 
-    public synchronized void adjustVolume(ZonePlayer player, int volumeChange) {
-        int volume = player.getMediaRendererDevice().getRenderingControlService().getVolume();
-        volume = volume + volumeChange;
-        setVolume(player, volume);
+    private int clampVolume(int volume) {
+        volume = Math.max(0, Math.min(100, volume));
+        return volume;
     }
+
+    public synchronized void adjustVolume(ZonePlayer player, int volumeChange) {
+        setVolume(player, volume(player) + volumeChange);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Raw service wrappers
+
+    private <T> T getService(Class<T> serviceClass, ZonePlayer player) {
+        try {
+            return serviceClass.getConstructor(UpnpService.class, RemoteDevice.class).newInstance(upnpService, player.getRootDevice());
+        } catch (Throwable e) {
+            throw new SonosException(e);
+        }
+    }
+
+    public AVTransport getAvTransport(ZonePlayer player) {
+        return getService(AVTransport.class, player);
+    }
+
+    public ContentDirectory getContentDirectory(ZonePlayer player) {
+        return getService(ContentDirectory.class, player);
+    }
+
+    public DeviceProperties getDeviceProperties(ZonePlayer player) {
+        return getService(DeviceProperties.class, player);
+    }
+
+    public AlarmClock getAlarmClock(ZonePlayer player) {
+        return getService(AlarmClock.class, player);
+    }
+
+    public AudioIn getAudioIn(ZonePlayer player) {
+        return getService(AudioIn.class, player);
+    }
+
+    public ConnectionManager getConnectionManager(ZonePlayer player) {
+        return getService(ConnectionManager.class, player);
+    }
+
+    public GroupManagement getGroupManagement(ZonePlayer player) {
+        return getService(GroupManagement.class, player);
+    }
+
+    public GroupRenderingControl getGroupRenderingControl(ZonePlayer player) {
+        return getService(GroupRenderingControl.class, player);
+    }
+
+    public MusicServices getMusicServices(ZonePlayer player) {
+        return getService(MusicServices.class, player);
+    }
+
+    public QPlay getQPlay(ZonePlayer player) {
+        return getService(QPlay.class, player);
+    }
+
+    public Queue getQueue(ZonePlayer player) {
+        return getService(Queue.class, player);
+    }
+
+    public RenderingControl getRenderingControl(ZonePlayer player) {
+        return getService(RenderingControl.class, player);
+    }
+
+    public SystemProperties getSystemProperties(ZonePlayer player) {
+        return getService(SystemProperties.class, player);
+    }
+
+    public ZoneGroupTopology getZoneGroupTopology(ZonePlayer player) {
+        return getService(ZoneGroupTopology.class, player);
+    }
+
 }
