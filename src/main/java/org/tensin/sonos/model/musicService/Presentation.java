@@ -7,10 +7,10 @@ import org.simpleframework.xml.Element;
 
 public class Presentation
 {
-	@Element(name="Strings")
+	@Element(name="Strings", required=false)
 	private Strings strings;
 	
-	@Element(name = "PresentationMap")
+	@Element(name = "PresentationMap", required=false)
 	private PresentationMap presentationMap;
 	
 	public String toString()
