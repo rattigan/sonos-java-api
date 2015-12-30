@@ -34,6 +34,9 @@ public class Sonos implements Closeable {
 
     private static final int DEFAULT_UDP_SEARCH_TIME = 120;
     public static final int MAX_TRIES = 10;
+    
+    // The maximum volume a speaker can be set to.
+    public static final int MAX_VOLUME = 100;
 
     private List<ZonePlayer> zonePlayers = Lists.newArrayList();
 
@@ -326,7 +329,7 @@ public class Sonos implements Closeable {
     }
 
     private int clampVolume(int volume) {
-        volume = Math.max(0, Math.min(100, volume));
+        volume = Math.max(0, Math.min(MAX_VOLUME, volume));
         return volume;
     }
 
