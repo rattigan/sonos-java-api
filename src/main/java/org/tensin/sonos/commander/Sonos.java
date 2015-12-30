@@ -316,6 +316,13 @@ public class Sonos implements Closeable {
         return getRenderingControl(player).getVolume().channel(RenderingControl.Channel.Master).execute().currentVolume();
     }
 
+    /**
+     * Sets the volume of the given player.
+     * 
+     * Valid volumes are 0 (off) to 100 (MAX_VOLUME).
+     * @param player
+     * @param volume
+     */
     public synchronized void setVolume(ZonePlayer player, int volume) {
         volume = clampVolume(volume);
         // Seem to be unreliable, so we set and verify as many times as needed
@@ -328,10 +335,27 @@ public class Sonos implements Closeable {
         log.warn("Failed to set volume to: " + volume + " in zone " + getZoneName(player));
     }
 
+    /**
+     * Ensures that the passed volume is between 0 and MAX_VOLUME inclusive.
+     * @param volume
+     * @return
+     */
     private int clampVolume(int volume) {
         volume = Math.max(0, Math.min(MAX_VOLUME, volume));
         return volume;
     }
+
+    /**
+     * Adjust the volume relative to the current volume by adding the passed delta
+     * to the existing volume
+     * 
+     * e.g. If players current volume is 10 and the volumeChange is 2 then the
+     * new volumen will be 12.
+     * 
+     * Valid volumes are 0 (off) to 100 (MAX_VOLUME).
+     * @param player
+     * @param volumeChange
+     */
 
     public synchronized void adjustVolume(ZonePlayer player, int volumeChange) {
         setVolume(player, volume(player) + volumeChange);
