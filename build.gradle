@@ -70,7 +70,7 @@ void generateServiceWrappers() {
         def file = new File(new File(projectDir, 'descriptors'), filename);
         if (!file.name.endsWith('xml'))
             return;
-        service = [id: id]
+        def service = [id: id]
         def serviceName = id.substring(id.lastIndexOf(':') + 1)
         services[serviceName] = service
         service.name = serviceName

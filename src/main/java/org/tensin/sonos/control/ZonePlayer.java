@@ -45,6 +45,10 @@ public class ZonePlayer {
         return null;
     }
 
+    public String toString()
+    {
+    	return dev.getDetails().getFriendlyName();
+    }
     /**
      * The dev.
      */
