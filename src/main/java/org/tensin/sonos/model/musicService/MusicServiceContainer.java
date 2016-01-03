@@ -9,7 +9,7 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 /**
- * This class simply exists to facilitate parsing of the MusicService xml.
+ * This class simply exists to facilitate parsing of the MusicService xml response.
  * @author bsutton
  *
  */
