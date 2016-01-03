@@ -38,7 +38,7 @@ public class QPlay {
             return this;
         }
 
-        public QPlayAuthResponse execute() {
+        public QPlayAuthResponse execute() throws SonosException {
             Action action = service.getAction("QPlayAuth");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -46,7 +46,7 @@ public class QPlay {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             QPlayAuthResponse response = new QPlayAuthResponse();
             

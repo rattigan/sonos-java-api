@@ -113,7 +113,7 @@ public class AlarmClock {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetFormat");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -123,7 +123,7 @@ public class AlarmClock {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -131,13 +131,13 @@ public class AlarmClock {
     public class GetFormatRequest {
         
         
-        public GetFormatResponse execute() {
+        public GetFormatResponse execute() throws SonosException {
             Action action = service.getAction("GetFormat");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetFormatResponse response = new GetFormatResponse();
             
@@ -167,7 +167,7 @@ public class AlarmClock {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetTimeZone");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -177,7 +177,7 @@ public class AlarmClock {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -185,13 +185,13 @@ public class AlarmClock {
     public class GetTimeZoneRequest {
         
         
-        public GetTimeZoneResponse execute() {
+        public GetTimeZoneResponse execute() throws SonosException {
             Action action = service.getAction("GetTimeZone");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetTimeZoneResponse response = new GetTimeZoneResponse();
             
@@ -207,13 +207,13 @@ public class AlarmClock {
     public class GetTimeZoneAndRuleRequest {
         
         
-        public GetTimeZoneAndRuleResponse execute() {
+        public GetTimeZoneAndRuleResponse execute() throws SonosException {
             Action action = service.getAction("GetTimeZoneAndRule");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetTimeZoneAndRuleResponse response = new GetTimeZoneAndRuleResponse();
             
@@ -238,7 +238,7 @@ public class AlarmClock {
             return this;
         }
 
-        public GetTimeZoneRuleResponse execute() {
+        public GetTimeZoneRuleResponse execute() throws SonosException {
             Action action = service.getAction("GetTimeZoneRule");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -246,7 +246,7 @@ public class AlarmClock {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetTimeZoneRuleResponse response = new GetTimeZoneRuleResponse();
             
@@ -267,7 +267,7 @@ public class AlarmClock {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetTimeServer");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -275,7 +275,7 @@ public class AlarmClock {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -283,13 +283,13 @@ public class AlarmClock {
     public class GetTimeServerRequest {
         
         
-        public GetTimeServerResponse execute() {
+        public GetTimeServerResponse execute() throws SonosException {
             Action action = service.getAction("GetTimeServer");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetTimeServerResponse response = new GetTimeServerResponse();
             
@@ -317,7 +317,7 @@ public class AlarmClock {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetTimeNow");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -327,7 +327,7 @@ public class AlarmClock {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -342,7 +342,7 @@ public class AlarmClock {
             return this;
         }
 
-        public GetHouseholdTimeAtStampResponse execute() {
+        public GetHouseholdTimeAtStampResponse execute() throws SonosException {
             Action action = service.getAction("GetHouseholdTimeAtStamp");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -350,7 +350,7 @@ public class AlarmClock {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetHouseholdTimeAtStampResponse response = new GetHouseholdTimeAtStampResponse();
             
@@ -364,13 +364,13 @@ public class AlarmClock {
     public class GetTimeNowRequest {
         
         
-        public GetTimeNowResponse execute() {
+        public GetTimeNowResponse execute() throws SonosException {
             Action action = service.getAction("GetTimeNow");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetTimeNowResponse response = new GetTimeNowResponse();
             
@@ -460,7 +460,7 @@ public class AlarmClock {
             return this;
         }
 
-        public CreateAlarmResponse execute() {
+        public CreateAlarmResponse execute() throws SonosException {
             Action action = service.getAction("CreateAlarm");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -486,7 +486,7 @@ public class AlarmClock {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             CreateAlarmResponse response = new CreateAlarmResponse();
             
@@ -577,7 +577,7 @@ public class AlarmClock {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("UpdateAlarm");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -605,7 +605,7 @@ public class AlarmClock {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -620,7 +620,7 @@ public class AlarmClock {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("DestroyAlarm");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -628,7 +628,7 @@ public class AlarmClock {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -636,13 +636,13 @@ public class AlarmClock {
     public class ListAlarmsRequest {
         
         
-        public ListAlarmsResponse execute() {
+        public ListAlarmsResponse execute() throws SonosException {
             Action action = service.getAction("ListAlarms");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             ListAlarmsResponse response = new ListAlarmsResponse();
             
@@ -665,7 +665,7 @@ public class AlarmClock {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetDailyIndexRefreshTime");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -673,7 +673,7 @@ public class AlarmClock {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -681,13 +681,13 @@ public class AlarmClock {
     public class GetDailyIndexRefreshTimeRequest {
         
         
-        public GetDailyIndexRefreshTimeResponse execute() {
+        public GetDailyIndexRefreshTimeResponse execute() throws SonosException {
             Action action = service.getAction("GetDailyIndexRefreshTime");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetDailyIndexRefreshTimeResponse response = new GetDailyIndexRefreshTimeResponse();
             

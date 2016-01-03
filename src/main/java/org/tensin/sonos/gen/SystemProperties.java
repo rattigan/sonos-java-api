@@ -121,7 +121,7 @@ public class SystemProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetString");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -131,7 +131,7 @@ public class SystemProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -153,7 +153,7 @@ public class SystemProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetStringX");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -163,7 +163,7 @@ public class SystemProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -178,7 +178,7 @@ public class SystemProperties {
             return this;
         }
 
-        public GetStringResponse execute() {
+        public GetStringResponse execute() throws SonosException {
             Action action = service.getAction("GetString");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -186,7 +186,7 @@ public class SystemProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetStringResponse response = new GetStringResponse();
             
@@ -207,7 +207,7 @@ public class SystemProperties {
             return this;
         }
 
-        public GetStringXResponse execute() {
+        public GetStringXResponse execute() throws SonosException {
             Action action = service.getAction("GetStringX");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -215,7 +215,7 @@ public class SystemProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetStringXResponse response = new GetStringXResponse();
             
@@ -236,7 +236,7 @@ public class SystemProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("Remove");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -244,7 +244,7 @@ public class SystemProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -259,7 +259,7 @@ public class SystemProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("RemoveX");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -267,7 +267,7 @@ public class SystemProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -282,7 +282,7 @@ public class SystemProperties {
             return this;
         }
 
-        public GetWebCodeResponse execute() {
+        public GetWebCodeResponse execute() throws SonosException {
             Action action = service.getAction("GetWebCode");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -290,7 +290,7 @@ public class SystemProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetWebCodeResponse response = new GetWebCodeResponse();
             
@@ -311,7 +311,7 @@ public class SystemProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("ProvisionTrialAccount");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -319,7 +319,7 @@ public class SystemProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -348,7 +348,7 @@ public class SystemProperties {
             return this;
         }
 
-        public ProvisionCredentialedTrialAccountXResponse execute() {
+        public ProvisionCredentialedTrialAccountXResponse execute() throws SonosException {
             Action action = service.getAction("ProvisionCredentialedTrialAccountX");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -360,7 +360,7 @@ public class SystemProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             ProvisionCredentialedTrialAccountXResponse response = new ProvisionCredentialedTrialAccountXResponse();
             
@@ -395,7 +395,7 @@ public class SystemProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("MigrateTrialAccountX");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -407,7 +407,7 @@ public class SystemProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -436,7 +436,7 @@ public class SystemProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("AddAccountX");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -448,7 +448,7 @@ public class SystemProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -477,7 +477,7 @@ public class SystemProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("AddAccountWithCredentialsX");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -489,7 +489,7 @@ public class SystemProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -511,7 +511,7 @@ public class SystemProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("RemoveAccount");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -521,7 +521,7 @@ public class SystemProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -550,7 +550,7 @@ public class SystemProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("EditAccountPasswordX");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -562,7 +562,7 @@ public class SystemProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -591,7 +591,7 @@ public class SystemProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("RefreshAccountCredentialsX");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -603,7 +603,7 @@ public class SystemProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -632,7 +632,7 @@ public class SystemProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("EditAccountMd");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -644,7 +644,7 @@ public class SystemProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -652,13 +652,13 @@ public class SystemProperties {
     public class DoPostUpdateTasksRequest {
         
         
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("DoPostUpdateTasks");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -666,13 +666,13 @@ public class SystemProperties {
     public class ResetThirdPartyCredentialsRequest {
         
         
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("ResetThirdPartyCredentials");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -687,7 +687,7 @@ public class SystemProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("EnableRDM");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -695,7 +695,7 @@ public class SystemProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -703,13 +703,13 @@ public class SystemProperties {
     public class GetRDMRequest {
         
         
-        public GetRDMResponse execute() {
+        public GetRDMResponse execute() throws SonosException {
             Action action = service.getAction("GetRDM");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetRDMResponse response = new GetRDMResponse();
             

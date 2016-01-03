@@ -86,7 +86,7 @@ public class ZoneGroupTopology {
             return this;
         }
 
-        public CheckForUpdateResponse execute() {
+        public CheckForUpdateResponse execute() throws SonosException {
             Action action = service.getAction("CheckForUpdate");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -98,7 +98,7 @@ public class ZoneGroupTopology {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             CheckForUpdateResponse response = new CheckForUpdateResponse();
             
@@ -133,7 +133,7 @@ public class ZoneGroupTopology {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("BeginSoftwareUpdate");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -145,7 +145,7 @@ public class ZoneGroupTopology {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -167,7 +167,7 @@ public class ZoneGroupTopology {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("ReportUnresponsiveDevice");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -177,7 +177,7 @@ public class ZoneGroupTopology {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -185,13 +185,13 @@ public class ZoneGroupTopology {
     public class ReportAlarmStartedRunningRequest {
         
         
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("ReportAlarmStartedRunning");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -213,7 +213,7 @@ public class ZoneGroupTopology {
             return this;
         }
 
-        public SubmitDiagnosticsResponse execute() {
+        public SubmitDiagnosticsResponse execute() throws SonosException {
             Action action = service.getAction("SubmitDiagnostics");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -223,7 +223,7 @@ public class ZoneGroupTopology {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             SubmitDiagnosticsResponse response = new SubmitDiagnosticsResponse();
             
@@ -258,7 +258,7 @@ public class ZoneGroupTopology {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("RegisterMobileDevice");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -270,7 +270,7 @@ public class ZoneGroupTopology {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -278,13 +278,13 @@ public class ZoneGroupTopology {
     public class GetZoneGroupAttributesRequest {
         
         
-        public GetZoneGroupAttributesResponse execute() {
+        public GetZoneGroupAttributesResponse execute() throws SonosException {
             Action action = service.getAction("GetZoneGroupAttributes");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetZoneGroupAttributesResponse response = new GetZoneGroupAttributesResponse();
             
@@ -302,13 +302,13 @@ public class ZoneGroupTopology {
     public class GetZoneGroupStateRequest {
         
         
-        public GetZoneGroupStateResponse execute() {
+        public GetZoneGroupStateResponse execute() throws SonosException {
             Action action = service.getAction("GetZoneGroupState");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetZoneGroupStateResponse response = new GetZoneGroupStateResponse();
             

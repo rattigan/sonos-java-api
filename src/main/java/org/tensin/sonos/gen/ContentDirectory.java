@@ -99,13 +99,13 @@ public class ContentDirectory {
     public class GetSearchCapabilitiesRequest {
         
         
-        public GetSearchCapabilitiesResponse execute() {
+        public GetSearchCapabilitiesResponse execute() throws SonosException {
             Action action = service.getAction("GetSearchCapabilities");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetSearchCapabilitiesResponse response = new GetSearchCapabilitiesResponse();
             
@@ -119,13 +119,13 @@ public class ContentDirectory {
     public class GetSortCapabilitiesRequest {
         
         
-        public GetSortCapabilitiesResponse execute() {
+        public GetSortCapabilitiesResponse execute() throws SonosException {
             Action action = service.getAction("GetSortCapabilities");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetSortCapabilitiesResponse response = new GetSortCapabilitiesResponse();
             
@@ -139,13 +139,13 @@ public class ContentDirectory {
     public class GetSystemUpdateIDRequest {
         
         
-        public GetSystemUpdateIDResponse execute() {
+        public GetSystemUpdateIDResponse execute() throws SonosException {
             Action action = service.getAction("GetSystemUpdateID");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetSystemUpdateIDResponse response = new GetSystemUpdateIDResponse();
             
@@ -159,13 +159,13 @@ public class ContentDirectory {
     public class GetAlbumArtistDisplayOptionRequest {
         
         
-        public GetAlbumArtistDisplayOptionResponse execute() {
+        public GetAlbumArtistDisplayOptionResponse execute() throws SonosException {
             Action action = service.getAction("GetAlbumArtistDisplayOption");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetAlbumArtistDisplayOptionResponse response = new GetAlbumArtistDisplayOptionResponse();
             
@@ -179,13 +179,13 @@ public class ContentDirectory {
     public class GetLastIndexChangeRequest {
         
         
-        public GetLastIndexChangeResponse execute() {
+        public GetLastIndexChangeResponse execute() throws SonosException {
             Action action = service.getAction("GetLastIndexChange");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetLastIndexChangeResponse response = new GetLastIndexChangeResponse();
             
@@ -241,7 +241,7 @@ public class ContentDirectory {
             return this;
         }
 
-        public BrowseResponse execute() {
+        public BrowseResponse execute() throws SonosException {
             Action action = service.getAction("Browse");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -259,7 +259,7 @@ public class ContentDirectory {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             BrowseResponse response = new BrowseResponse();
             
@@ -293,7 +293,7 @@ public class ContentDirectory {
             return this;
         }
 
-        public FindPrefixResponse execute() {
+        public FindPrefixResponse execute() throws SonosException {
             Action action = service.getAction("FindPrefix");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -303,7 +303,7 @@ public class ContentDirectory {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             FindPrefixResponse response = new FindPrefixResponse();
             
@@ -326,7 +326,7 @@ public class ContentDirectory {
             return this;
         }
 
-        public GetAllPrefixLocationsResponse execute() {
+        public GetAllPrefixLocationsResponse execute() throws SonosException {
             Action action = service.getAction("GetAllPrefixLocations");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -334,7 +334,7 @@ public class ContentDirectory {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetAllPrefixLocationsResponse response = new GetAllPrefixLocationsResponse();
             
@@ -366,7 +366,7 @@ public class ContentDirectory {
             return this;
         }
 
-        public CreateObjectResponse execute() {
+        public CreateObjectResponse execute() throws SonosException {
             Action action = service.getAction("CreateObject");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -376,7 +376,7 @@ public class ContentDirectory {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             CreateObjectResponse response = new CreateObjectResponse();
             
@@ -413,7 +413,7 @@ public class ContentDirectory {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("UpdateObject");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -425,7 +425,7 @@ public class ContentDirectory {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -440,7 +440,7 @@ public class ContentDirectory {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("DestroyObject");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -448,7 +448,7 @@ public class ContentDirectory {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -456,13 +456,13 @@ public class ContentDirectory {
     public class RefreshShareListRequest {
         
         
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("RefreshShareList");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -477,7 +477,7 @@ public class ContentDirectory {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("RefreshShareIndex");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -485,7 +485,7 @@ public class ContentDirectory {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -500,7 +500,7 @@ public class ContentDirectory {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("RequestResort");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -508,7 +508,7 @@ public class ContentDirectory {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -516,13 +516,13 @@ public class ContentDirectory {
     public class GetShareIndexInProgressRequest {
         
         
-        public GetShareIndexInProgressResponse execute() {
+        public GetShareIndexInProgressResponse execute() throws SonosException {
             Action action = service.getAction("GetShareIndexInProgress");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetShareIndexInProgressResponse response = new GetShareIndexInProgressResponse();
             
@@ -536,13 +536,13 @@ public class ContentDirectory {
     public class GetBrowseableRequest {
         
         
-        public GetBrowseableResponse execute() {
+        public GetBrowseableResponse execute() throws SonosException {
             Action action = service.getAction("GetBrowseable");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetBrowseableResponse response = new GetBrowseableResponse();
             
@@ -563,7 +563,7 @@ public class ContentDirectory {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetBrowseable");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -571,7 +571,7 @@ public class ContentDirectory {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }

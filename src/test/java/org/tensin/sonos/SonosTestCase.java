@@ -1,6 +1,7 @@
 package org.tensin.sonos;
 
-import com.google.common.base.Strings;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,7 @@ import org.tensin.sonos.control.ZonePlayer;
 import org.tensin.sonos.helpers.RemoteDeviceHelper;
 import org.tensin.sonos.model.Entry;
 
-import java.util.List;
+import com.google.common.base.Strings;
 
 /**
  * The Class CLITestCase.
@@ -35,7 +36,7 @@ public class SonosTestCase {
     }
 
     @Test
-    public void testDiscover() {
+    public void testDiscover() throws SonosException {
         List<String> zones = sonos.getZoneNames();
         log.info("Discovered: " + zones);
     }
@@ -53,16 +54,59 @@ public class SonosTestCase {
      *             the sonos exception
      */
     @Test
-    public void testList() {
+    public void testList() throws SonosException {
         String[] types = {"A:", "S:", /*"Q",*/ "Q:0", "SQ:", /*"R:",*/ "EN:"};//, "S://server_smb/Sara", "A:PLAYLISTS", "A:TRACKS"};
-        for (String type : types) {
-            log.info("Browsing " + type);
-            Iterable<Entry> entries = sonos.browse(sonos.getPlayer(ZONE1), type);
-            dumpEntries(entries);
+        
+        browse(BrowseType.Artist);
+        
+       
+       // browse(BrowseType.EntireNetwork);
+        
+       Iterable<Entry> queues = browse(BrowseType.Queues);
+        
+        for (Entry queue : queues)
+        {
+        	// The Entry id contains the queue number in the format of 'Q:1'
+        	//browse(BrowseType.Queues, queue.getId().substring("Q:".length()));
+        	
+        	browse(BrowseType.SavedQueues, queue.getId().substring("Q:".length()));
         }
-    }
+        
+        browse(BrowseType.InternetRadio);
+        
+        browse(BrowseType.MusicShares);
+        
+        browse(BrowseType.PlayLists);
+        
+        browse(BrowseType.Tracks);
+        
+         
+       
+        
+      }
 
-    private void dumpEntries(Iterable<Entry> entries) {
+    private Iterable<Entry> browse(BrowseType type) throws SonosException {
+    	log.info("Browsing " + type);
+        Iterable<Entry> entries = sonos.browse(sonos.getPlayer(ZONE2), type);
+        dumpEntries(entries);
+        
+        return entries;
+        
+		
+	}
+    
+
+    private Iterable<Entry> browse(BrowseType type, String typeArg) throws SonosException {
+    	log.info("Browsing " + type + " Arg:" + typeArg);
+        Iterable<Entry> entries = sonos.browse(sonos.getPlayer(ZONE2), type, typeArg);
+        dumpEntries(entries);
+        
+        return entries;
+        
+		
+	}
+
+	private void dumpEntries(Iterable<Entry> entries) {
         for (Entry entry : entries)
             log.info(dumpEntry(entry));
     }
@@ -93,17 +137,19 @@ public class SonosTestCase {
     }
 
     @Test
-    public void testPlay()  {
-        ZonePlayer player = sonos.getPlayer(ZONE1);
-        dumpEntries(sonos.browse(player, "Q:0"));
+    public void testPlay() throws SonosException  {
+        ZonePlayer player = sonos.getPlayer(ZONE2);
+        dumpEntries(sonos.browse(player, BrowseType.Queues));
         sonos.clearQueue(player);
-        sonos.enqueue(player, "cifs://server_smb/sonos/Classical/Bach, Johann Sebastian/Goldberg Variations/Glenn Gould - Bach  The Goldberg Variations (1955)/02 Variation 1 a 1 Clav..flac");
-        dumpEntries(sonos.browse(player, "Q:0"));
+       // sonos.enqueue(player, "cifs://server_smb/sonos/Classical/Bach, Johann Sebastian/Goldberg Variations/Glenn Gould - Bach  The Goldberg Variations (1955)/02 Variation 1 a 1 Clav..flac");
+        sonos.enqueue(player, "cifs://192.168.0.13/Music/Dead_Combo_-_01_-_Povo_Que_Cas_Descalo.mp3");
+        
+        dumpEntries(sonos.browse(player, BrowseType.Queues));
         sonos.play(player);
     }
 
     @Test
-    public void testVolume() {
+    public void testVolume() throws SonosException {
         ZonePlayer player = sonos.getPlayer(ZONE1);
         sonos.setVolume(player, 20);
         //log.info("" + sonos.volume(player));
@@ -117,7 +163,7 @@ public class SonosTestCase {
     }
 
     @Test
-    public void testDeviceDump() {
+    public void testDeviceDump() throws SonosException {
         log.info(RemoteDeviceHelper.dumpRemoteDevice(sonos.getPlayer(ZONE1).getRootDevice()));
     }
 

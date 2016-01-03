@@ -147,7 +147,7 @@ public class RenderingControl {
             return this;
         }
 
-        public GetMuteResponse execute() {
+        public GetMuteResponse execute() throws SonosException {
             Action action = service.getAction("GetMute");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -157,7 +157,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetMuteResponse response = new GetMuteResponse();
             
@@ -192,7 +192,7 @@ public class RenderingControl {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetMute");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -204,7 +204,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -219,7 +219,7 @@ public class RenderingControl {
             return this;
         }
 
-        public ResetBasicEQResponse execute() {
+        public ResetBasicEQResponse execute() throws SonosException {
             Action action = service.getAction("ResetBasicEQ");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -227,7 +227,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             ResetBasicEQResponse response = new ResetBasicEQResponse();
             
@@ -263,7 +263,7 @@ public class RenderingControl {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("ResetExtEQ");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -273,7 +273,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -295,7 +295,7 @@ public class RenderingControl {
             return this;
         }
 
-        public GetVolumeResponse execute() {
+        public GetVolumeResponse execute() throws SonosException {
             Action action = service.getAction("GetVolume");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -305,7 +305,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetVolumeResponse response = new GetVolumeResponse();
             
@@ -340,7 +340,7 @@ public class RenderingControl {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetVolume");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -352,7 +352,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -381,7 +381,7 @@ public class RenderingControl {
             return this;
         }
 
-        public SetRelativeVolumeResponse execute() {
+        public SetRelativeVolumeResponse execute() throws SonosException {
             Action action = service.getAction("SetRelativeVolume");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -393,7 +393,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             SetRelativeVolumeResponse response = new SetRelativeVolumeResponse();
             
@@ -421,7 +421,7 @@ public class RenderingControl {
             return this;
         }
 
-        public GetVolumeDBResponse execute() {
+        public GetVolumeDBResponse execute() throws SonosException {
             Action action = service.getAction("GetVolumeDB");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -431,7 +431,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetVolumeDBResponse response = new GetVolumeDBResponse();
             
@@ -466,7 +466,7 @@ public class RenderingControl {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetVolumeDB");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -478,7 +478,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -500,7 +500,7 @@ public class RenderingControl {
             return this;
         }
 
-        public GetVolumeDBRangeResponse execute() {
+        public GetVolumeDBRangeResponse execute() throws SonosException {
             Action action = service.getAction("GetVolumeDBRange");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -510,7 +510,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetVolumeDBRangeResponse response = new GetVolumeDBRangeResponse();
             
@@ -533,7 +533,7 @@ public class RenderingControl {
             return this;
         }
 
-        public GetBassResponse execute() {
+        public GetBassResponse execute() throws SonosException {
             Action action = service.getAction("GetBass");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -541,7 +541,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetBassResponse response = new GetBassResponse();
             
@@ -569,7 +569,7 @@ public class RenderingControl {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetBass");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -579,7 +579,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -594,7 +594,7 @@ public class RenderingControl {
             return this;
         }
 
-        public GetTrebleResponse execute() {
+        public GetTrebleResponse execute() throws SonosException {
             Action action = service.getAction("GetTreble");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -602,7 +602,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetTrebleResponse response = new GetTrebleResponse();
             
@@ -630,7 +630,7 @@ public class RenderingControl {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetTreble");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -640,7 +640,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -662,7 +662,7 @@ public class RenderingControl {
             return this;
         }
 
-        public GetEQResponse execute() {
+        public GetEQResponse execute() throws SonosException {
             Action action = service.getAction("GetEQ");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -672,7 +672,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetEQResponse response = new GetEQResponse();
             
@@ -707,7 +707,7 @@ public class RenderingControl {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetEQ");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -719,7 +719,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -741,7 +741,7 @@ public class RenderingControl {
             return this;
         }
 
-        public GetLoudnessResponse execute() {
+        public GetLoudnessResponse execute() throws SonosException {
             Action action = service.getAction("GetLoudness");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -751,7 +751,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetLoudnessResponse response = new GetLoudnessResponse();
             
@@ -786,7 +786,7 @@ public class RenderingControl {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetLoudness");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -798,7 +798,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -813,7 +813,7 @@ public class RenderingControl {
             return this;
         }
 
-        public GetSupportsOutputFixedResponse execute() {
+        public GetSupportsOutputFixedResponse execute() throws SonosException {
             Action action = service.getAction("GetSupportsOutputFixed");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -821,7 +821,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetSupportsOutputFixedResponse response = new GetSupportsOutputFixedResponse();
             
@@ -842,7 +842,7 @@ public class RenderingControl {
             return this;
         }
 
-        public GetOutputFixedResponse execute() {
+        public GetOutputFixedResponse execute() throws SonosException {
             Action action = service.getAction("GetOutputFixed");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -850,7 +850,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetOutputFixedResponse response = new GetOutputFixedResponse();
             
@@ -878,7 +878,7 @@ public class RenderingControl {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetOutputFixed");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -888,7 +888,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -903,7 +903,7 @@ public class RenderingControl {
             return this;
         }
 
-        public GetHeadphoneConnectedResponse execute() {
+        public GetHeadphoneConnectedResponse execute() throws SonosException {
             Action action = service.getAction("GetHeadphoneConnected");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -911,7 +911,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetHeadphoneConnectedResponse response = new GetHeadphoneConnectedResponse();
             
@@ -967,7 +967,7 @@ public class RenderingControl {
             return this;
         }
 
-        public RampToVolumeResponse execute() {
+        public RampToVolumeResponse execute() throws SonosException {
             Action action = service.getAction("RampToVolume");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -985,7 +985,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             RampToVolumeResponse response = new RampToVolumeResponse();
             
@@ -1013,7 +1013,7 @@ public class RenderingControl {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("RestoreVolumePriorToRamp");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1023,7 +1023,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1045,7 +1045,7 @@ public class RenderingControl {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetChannelMap");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1055,7 +1055,7 @@ public class RenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }

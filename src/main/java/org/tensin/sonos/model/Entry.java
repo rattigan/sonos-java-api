@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.tensin.sonos.control.ZonePlayer;
 
 /**
- * An immutable data transfer object representing an entry in a zone players
+ * An immutable data transfer object representing an entry in a zone player's
  * music library. eg. a queue entry, or a line in.
  * 
  * @author David WHEELER

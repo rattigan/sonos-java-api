@@ -128,7 +128,7 @@ public class DeviceProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetLEDState");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -136,7 +136,7 @@ public class DeviceProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -144,13 +144,13 @@ public class DeviceProperties {
     public class GetLEDStateRequest {
         
         
-        public GetLEDStateResponse execute() {
+        public GetLEDStateResponse execute() throws SonosException {
             Action action = service.getAction("GetLEDState");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetLEDStateResponse response = new GetLEDStateResponse();
             
@@ -171,7 +171,7 @@ public class DeviceProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetInvisible");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -179,7 +179,7 @@ public class DeviceProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -187,13 +187,13 @@ public class DeviceProperties {
     public class GetInvisibleRequest {
         
         
-        public GetInvisibleResponse execute() {
+        public GetInvisibleResponse execute() throws SonosException {
             Action action = service.getAction("GetInvisible");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetInvisibleResponse response = new GetInvisibleResponse();
             
@@ -214,7 +214,7 @@ public class DeviceProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("AddBondedZones");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -222,7 +222,7 @@ public class DeviceProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -237,7 +237,7 @@ public class DeviceProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("RemoveBondedZones");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -245,7 +245,7 @@ public class DeviceProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -260,7 +260,7 @@ public class DeviceProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("CreateStereoPair");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -268,7 +268,7 @@ public class DeviceProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -283,7 +283,7 @@ public class DeviceProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SeparateStereoPair");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -291,7 +291,7 @@ public class DeviceProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -320,7 +320,7 @@ public class DeviceProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetZoneAttributes");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -332,7 +332,7 @@ public class DeviceProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -340,13 +340,13 @@ public class DeviceProperties {
     public class GetZoneAttributesRequest {
         
         
-        public GetZoneAttributesResponse execute() {
+        public GetZoneAttributesResponse execute() throws SonosException {
             Action action = service.getAction("GetZoneAttributes");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetZoneAttributesResponse response = new GetZoneAttributesResponse();
             
@@ -364,13 +364,13 @@ public class DeviceProperties {
     public class GetHouseholdIDRequest {
         
         
-        public GetHouseholdIDResponse execute() {
+        public GetHouseholdIDResponse execute() throws SonosException {
             Action action = service.getAction("GetHouseholdID");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetHouseholdIDResponse response = new GetHouseholdIDResponse();
             
@@ -384,13 +384,13 @@ public class DeviceProperties {
     public class GetZoneInfoRequest {
         
         
-        public GetZoneInfoResponse execute() {
+        public GetZoneInfoResponse execute() throws SonosException {
             Action action = service.getAction("GetZoneInfo");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetZoneInfoResponse response = new GetZoneInfoResponse();
             
@@ -427,7 +427,7 @@ public class DeviceProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetAutoplayLinkedZones");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -435,7 +435,7 @@ public class DeviceProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -443,13 +443,13 @@ public class DeviceProperties {
     public class GetAutoplayLinkedZonesRequest {
         
         
-        public GetAutoplayLinkedZonesResponse execute() {
+        public GetAutoplayLinkedZonesResponse execute() throws SonosException {
             Action action = service.getAction("GetAutoplayLinkedZones");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetAutoplayLinkedZonesResponse response = new GetAutoplayLinkedZonesResponse();
             
@@ -470,7 +470,7 @@ public class DeviceProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetAutoplayRoomUUID");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -478,7 +478,7 @@ public class DeviceProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -486,13 +486,13 @@ public class DeviceProperties {
     public class GetAutoplayRoomUUIDRequest {
         
         
-        public GetAutoplayRoomUUIDResponse execute() {
+        public GetAutoplayRoomUUIDResponse execute() throws SonosException {
             Action action = service.getAction("GetAutoplayRoomUUID");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetAutoplayRoomUUIDResponse response = new GetAutoplayRoomUUIDResponse();
             
@@ -513,7 +513,7 @@ public class DeviceProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetAutoplayVolume");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -521,7 +521,7 @@ public class DeviceProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -529,13 +529,13 @@ public class DeviceProperties {
     public class GetAutoplayVolumeRequest {
         
         
-        public GetAutoplayVolumeResponse execute() {
+        public GetAutoplayVolumeResponse execute() throws SonosException {
             Action action = service.getAction("GetAutoplayVolume");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetAutoplayVolumeResponse response = new GetAutoplayVolumeResponse();
             
@@ -563,7 +563,7 @@ public class DeviceProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("ImportSetting");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -573,7 +573,7 @@ public class DeviceProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -588,7 +588,7 @@ public class DeviceProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetUseAutoplayVolume");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -596,7 +596,7 @@ public class DeviceProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -604,13 +604,13 @@ public class DeviceProperties {
     public class GetUseAutoplayVolumeRequest {
         
         
-        public GetUseAutoplayVolumeResponse execute() {
+        public GetUseAutoplayVolumeResponse execute() throws SonosException {
             Action action = service.getAction("GetUseAutoplayVolume");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetUseAutoplayVolumeResponse response = new GetUseAutoplayVolumeResponse();
             
@@ -631,7 +631,7 @@ public class DeviceProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("AddHTSatellite");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -639,7 +639,7 @@ public class DeviceProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -654,7 +654,7 @@ public class DeviceProperties {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("RemoveHTSatellite");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -662,7 +662,7 @@ public class DeviceProperties {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
