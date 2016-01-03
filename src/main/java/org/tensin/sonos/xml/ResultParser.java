@@ -54,10 +54,11 @@ public class ResultParser {
 	 * @param xml
 	 *            the xml
 	 * @return a list of Entrys from the given xml string.
+	 * @throws SonosException 
 	 * @throws SAXException
 	 *             the sAX exception
 	 */
-	public static List<Entry> getEntriesFromStringResult(final String xml) {
+	public static List<Entry> getEntriesFromStringResult(final String xml) throws SonosException {
 		if (xml.isEmpty())
 			return Collections.emptyList();
 		try {
@@ -79,10 +80,11 @@ public class ResultParser {
 	 * @param xml
 	 *            the xml
 	 * @return zone group state from the given xml
+	 * @throws SonosException 
 	 * @throws SAXException
 	 *             the sAX exception
 	 */
-	public static ZoneGroupState getGroupStateFromResult(final String xml) {
+	public static ZoneGroupState getGroupStateFromResult(final String xml) throws SonosException {
 		if (xml == null)
 			return null;
 		try {
