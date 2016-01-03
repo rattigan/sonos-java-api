@@ -3,7 +3,7 @@ package org.tensin.sonos;
 /**
  * The Class SonosException.
  */
-public class SonosException extends RuntimeException {
+public class SonosException extends Exception {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -9055220250142132262L;
@@ -29,6 +29,22 @@ public class SonosException extends RuntimeException {
     public SonosException(final String message, final Throwable e) {
         super(message, e);
     }
+    
+    
+
+    /**
+     * Instantiates a new sonos exception.
+     *
+     * @param message
+     *            the message
+     * @param e
+     *            the e
+     */
+    public SonosException(final int errorCode, final Throwable e) {
+    	
+        super(SonosErrorCode.getErrorCode(errorCode).getErrorString(), e);
+    }
+
 
     /**
      * Instantiates a new sonos exception.

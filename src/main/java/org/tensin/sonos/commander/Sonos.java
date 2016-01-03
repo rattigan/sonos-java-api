@@ -15,6 +15,7 @@ import org.teleal.cling.model.types.UDAServiceType;
 import org.teleal.cling.registry.DefaultRegistryListener;
 import org.teleal.cling.registry.Registry;
 import org.teleal.cling.registry.RegistryListener;
+import org.tensin.sonos.BrowseType;
 import org.tensin.sonos.SonosConstants;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.control.ZonePlayer;
@@ -56,7 +57,7 @@ public class Sonos implements Closeable {
 
 	// The maximum volume a speaker can be set to.
 	public static final int MAX_VOLUME = 100;
-
+	
 	private List<ZonePlayer> zonePlayers = Lists.newArrayList();
 
 	private UpnpService upnpService;
@@ -114,7 +115,7 @@ public class Sonos implements Closeable {
 				+ dev.getDetails().getModelDetails().getModelNumber();
 	}
 
-	public synchronized ZonePlayer getPlayer(String name) {
+	public synchronized ZonePlayer getPlayer(String name) throws SonosException {
 		name = name.toLowerCase();
 		synchronized (zonePlayers) {
 			for (ZonePlayer zp : zonePlayers) {
@@ -201,7 +202,7 @@ public class Sonos implements Closeable {
 		}
 	};
 
-	private ZonePlayer getCoordinator(ZonePlayer zp) {
+	private ZonePlayer getCoordinator(ZonePlayer zp) throws SonosException {
 		if (zp == null)
 			return null;
 
@@ -216,7 +217,7 @@ public class Sonos implements Closeable {
 		return zp;
 	}
 
-	public synchronized List<String> getZoneNames() {
+	public synchronized List<String> getZoneNames() throws SonosException {
 		List<String> zones = Lists.newArrayList();
 		for (ZonePlayer player : zonePlayers)
 			zones.add(getZoneName(player));
@@ -230,95 +231,108 @@ public class Sonos implements Closeable {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Facade
 
-	public synchronized AVTransport.AddURIToQueueResponse enqueue(ZonePlayer player, String url) {
+	public synchronized AVTransport.AddURIToQueueResponse enqueue(ZonePlayer player, String url) throws SonosException {
 		Entry entry = EntryHelper.createEntryForUrl(url);
 		return getAvTransport(getCoordinator(player)).addURIToQueue().enqueuedURI(entry.getRes())
 				.enqueuedURIMetaData(EntryHelper.compileMetadataString(entry)).enqueueAsNext(true).execute();
 	}
 
-	public synchronized Iterable<Entry> browse(final ZonePlayer player, String type) {
+	public synchronized Iterable<Entry> browse(final ZonePlayer player, BrowseType type) throws SonosException {
+		return browse(player, type, "");
+	}
+	
+	public synchronized Iterable<Entry> browse(final ZonePlayer player, BrowseType type, String browseTypeArg) throws SonosException {
 		// TODO paging support
-		ContentDirectory.BrowseResponse response = getContentDirectory(player).browse().objectID(type).filter("*")// "dc:title,res,dc:creator,upnp:artist,upnp:album")
+		String objectId;
+		
+		if (browseTypeArg.length() != 0)
+			objectId = type.getTypeKey() + ":" + browseTypeArg;
+		else
+			objectId = type.getTypeKey();
+		ContentDirectory.BrowseResponse response = getContentDirectory(player).browse().objectID(objectId).filter("*")// "dc:title,res,dc:creator,upnp:artist,upnp:album")
 				.browseFlag(ContentDirectory.BrowseFlag.BrowseDirectChildren).requestedCount(Integer.MAX_VALUE)
 				.execute();
 		String xml = response.result();
 		return ResultParser.getEntriesFromStringResult(xml);
 	}
 
-	public synchronized Iterable<Entry> browseArtists(final ZonePlayer player) {
-		return browse(player, "A:ARTIST");
+	
+
+	
+	public synchronized Iterable<Entry> browseArtists(final ZonePlayer player) throws SonosException {
+		return browse(player,BrowseType.Artist);
 	}
 
-	public synchronized void crossFade(ZonePlayer player, boolean crossfade) {
+	public synchronized void crossFade(ZonePlayer player, boolean crossfade) throws SonosException {
 		getAvTransport(player).setCrossfadeMode().crossfadeMode(crossfade).execute();
 	}
 
-	private synchronized String getZoneName(ZonePlayer player) {
+	private synchronized String getZoneName(ZonePlayer player) throws SonosException {
 		return getDeviceProperties(player).getZoneAttributes().execute().currentZoneName();
 	}
 
-	public synchronized void lineIn(ZonePlayer player) {
+	public synchronized void lineIn(ZonePlayer player) throws SonosException {
 		getAudioIn(player).selectAudio().objectID("urn:schemas-upnp-org:service:AudioIn:1");
 	}
 
-	public synchronized void moveTracks(ZonePlayer player, int startAt, int count, int insertBefore) {
+	public synchronized void moveTracks(ZonePlayer player, int startAt, int count, int insertBefore) throws SonosException {
 		getAvTransport(player).reorderTracksInQueue().startingIndex(startAt).numberOfTracks(count)
 				.insertBefore(insertBefore).execute();
 	}
 
-	public synchronized void mute(ZonePlayer player, boolean mute) {
+	public synchronized void mute(ZonePlayer player, boolean mute) throws SonosException {
 		getRenderingControl(player).setMute().desiredMute(mute).execute();
 	}
 
-	public synchronized void next(ZonePlayer player) {
+	public synchronized void next(ZonePlayer player) throws SonosException {
 		getAvTransport(player).next().execute();
 	}
 
-	public synchronized void previous(ZonePlayer player) {
+	public synchronized void previous(ZonePlayer player) throws SonosException {
 		getAvTransport(player).previous().execute();
 	}
 
-	public synchronized void pause(ZonePlayer player) {
+	public synchronized void pause(ZonePlayer player) throws SonosException {
 		getAvTransport(player).pause().execute();
 	}
 
-	public synchronized void play(ZonePlayer player) {
+	public synchronized void play(ZonePlayer player) throws SonosException {
 		getAvTransport(player).play().speed(AVTransport.TransportPlaySpeed._1).execute();
 	}
 
-	public synchronized void play(ZonePlayer player, String url) {
+	public synchronized void play(ZonePlayer player, String url) throws SonosException {
 		track(player, enqueue(player, url).firstTrackNumberEnqueued());
 	}
 
-	public synchronized void remove(ZonePlayer player, String url) {
+	public synchronized void remove(ZonePlayer player, String url) throws SonosException {
 		Entry entry = EntryHelper.createEntryForUrl(url);
 		getAvTransport(player).removeTrackFromQueue().objectID(entry.getId()).execute();
 	}
 
-	public synchronized void clearQueue(ZonePlayer player) {
+	public synchronized void clearQueue(ZonePlayer player) throws SonosException {
 		getAvTransport(player).removeAllTracksFromQueue().execute();
 	}
 
-	public synchronized void saveQueue(ZonePlayer player, String title) {
+	public synchronized void saveQueue(ZonePlayer player, String title) throws SonosException {
 		getAvTransport(player).saveQueue().title(title).execute();
 	}
 
-	public synchronized void saveQueue(ZonePlayer player, String title, String playlistId) {
+	public synchronized void saveQueue(ZonePlayer player, String title, String playlistId) throws SonosException {
 		getAvTransport(player).saveQueue().title(title).objectID(playlistId);
 	}
 
-	public synchronized void shuffle(ZonePlayer player, boolean shuffle) {
+	public synchronized void shuffle(ZonePlayer player, boolean shuffle) throws SonosException {
 		getAvTransport(player).setPlayMode()
 				.newPlayMode(
 						shuffle ? AVTransport.CurrentPlayMode.SHUFFLE_NOREPEAT : AVTransport.CurrentPlayMode.NORMAL)
 				.execute();
 	}
 
-	public synchronized void track(ZonePlayer player, int track) {
+	public synchronized void track(ZonePlayer player, int track) throws SonosException {
 		getAvTransport(player).seek().unit(AVTransport.SeekMode.TRACK_NR).target("" + track).execute();
 	}
 
-	public synchronized int volume(ZonePlayer player) {
+	public synchronized int volume(ZonePlayer player) throws SonosException {
 		return getRenderingControl(player).getVolume().channel(RenderingControl.Channel.Master).execute()
 				.currentVolume();
 	}
@@ -330,8 +344,9 @@ public class Sonos implements Closeable {
 	 * 
 	 * @param player
 	 * @param volume
+	 * @throws SonosException 
 	 */
-	public synchronized void setVolume(ZonePlayer player, int volume) {
+	public synchronized void setVolume(ZonePlayer player, int volume) throws SonosException {
 		volume = clampVolume(volume);
 		// Seem to be unreliable, so we set and verify as many times as needed
 		int tries = MAX_TRIES;
@@ -366,16 +381,17 @@ public class Sonos implements Closeable {
 	 * 
 	 * @param player
 	 * @param volumeChange
+	 * @throws SonosException 
 	 */
 
-	public synchronized void adjustVolume(ZonePlayer player, int volumeChange) {
+	public synchronized void adjustVolume(ZonePlayer player, int volumeChange) throws SonosException {
 		setVolume(player, volume(player) + volumeChange);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Raw service wrappers
 
-	private <T> T getService(Class<T> serviceClass, ZonePlayer player) {
+	private <T> T getService(Class<T> serviceClass, ZonePlayer player) throws SonosException {
 		try {
 			return serviceClass.getConstructor(UpnpService.class, RemoteDevice.class).newInstance(upnpService,
 					player.getRootDevice());
@@ -384,39 +400,39 @@ public class Sonos implements Closeable {
 		}
 	}
 
-	public AVTransport getAvTransport(ZonePlayer player) {
+	public AVTransport getAvTransport(ZonePlayer player) throws SonosException {
 		return getService(AVTransport.class, player);
 	}
 
-	public ContentDirectory getContentDirectory(ZonePlayer player) {
+	public ContentDirectory getContentDirectory(ZonePlayer player) throws SonosException {
 		return getService(ContentDirectory.class, player);
 	}
 
-	public DeviceProperties getDeviceProperties(ZonePlayer player) {
+	public DeviceProperties getDeviceProperties(ZonePlayer player) throws SonosException {
 		return getService(DeviceProperties.class, player);
 	}
 
-	public AlarmClock getAlarmClock(ZonePlayer player) {
+	public AlarmClock getAlarmClock(ZonePlayer player) throws SonosException {
 		return getService(AlarmClock.class, player);
 	}
 
-	public AudioIn getAudioIn(ZonePlayer player) {
+	public AudioIn getAudioIn(ZonePlayer player) throws SonosException {
 		return getService(AudioIn.class, player);
 	}
 
-	public ConnectionManager getConnectionManager(ZonePlayer player) {
+	public ConnectionManager getConnectionManager(ZonePlayer player) throws SonosException {
 		return getService(ConnectionManager.class, player);
 	}
 
-	public GroupManagement getGroupManagement(ZonePlayer player) {
+	public GroupManagement getGroupManagement(ZonePlayer player) throws SonosException {
 		return getService(GroupManagement.class, player);
 	}
 
-	public GroupRenderingControl getGroupRenderingControl(ZonePlayer player) {
+	public GroupRenderingControl getGroupRenderingControl(ZonePlayer player) throws SonosException {
 		return getService(GroupRenderingControl.class, player);
 	}
 
-	public MusicServices getMusicServices(ZonePlayer player) {
+	public MusicServices getMusicServices(ZonePlayer player) throws SonosException {
 		return getService(MusicServices.class, player);
 	}
 
@@ -429,8 +445,9 @@ public class Sonos implements Closeable {
 	 * @param List<MusicService> - list of music services supported by this ZonePlayer.
 	 * @return
 	 * @throws SAXException 
+	 * @throws SonosException 
 	 */
-	public List<MusicService> getMusicServiceList(ZonePlayer player) throws SAXException {
+	public List<MusicService> getMusicServiceList(ZonePlayer player) throws SAXException, SonosException {
 		MusicServices services = getMusicServices(player);
 
 		ListAvailableServicesRequest request = services.listAvailableServices();
@@ -442,23 +459,23 @@ public class Sonos implements Closeable {
 
 	}
 
-	public QPlay getQPlay(ZonePlayer player) {
+	public QPlay getQPlay(ZonePlayer player) throws SonosException {
 		return getService(QPlay.class, player);
 	}
 
-	public Queue getQueue(ZonePlayer player) {
+	public Queue getQueue(ZonePlayer player) throws SonosException {
 		return getService(Queue.class, player);
 	}
 
-	public RenderingControl getRenderingControl(ZonePlayer player) {
+	public RenderingControl getRenderingControl(ZonePlayer player) throws SonosException {
 		return getService(RenderingControl.class, player);
 	}
 
-	public SystemProperties getSystemProperties(ZonePlayer player) {
+	public SystemProperties getSystemProperties(ZonePlayer player) throws SonosException {
 		return getService(SystemProperties.class, player);
 	}
 
-	public ZoneGroupTopology getZoneGroupTopology(ZonePlayer player) {
+	public ZoneGroupTopology getZoneGroupTopology(ZonePlayer player) throws SonosException {
 		return getService(ZoneGroupTopology.class, player);
 	}
 
