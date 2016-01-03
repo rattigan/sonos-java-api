@@ -18,6 +18,16 @@ public class PresentationMap
 	{
 		return "Version=" + version + ", Uri" + uri;
 	}
+
+
+	public String getVersion() {
+		return version;
+	}
+
+
+	public URL getUri() {
+		return uri;
+	}
 	
 
 }

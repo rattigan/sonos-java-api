@@ -11,5 +11,13 @@ public class Strings
 	
 	@Attribute (name="Uri")
 	private URL uri;
+
+	public String getVersion() {
+		return version;
+	}
+
+	public URL getUri() {
+		return uri;
+	}
 	
 }

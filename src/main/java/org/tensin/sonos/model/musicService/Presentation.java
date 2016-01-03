@@ -19,4 +19,12 @@ public class Presentation
 		
 	}
 
+	public Strings getStrings() {
+		return strings;
+	}
+
+	public PresentationMap getPresentationMap() {
+		return presentationMap;
+	}
+
 }

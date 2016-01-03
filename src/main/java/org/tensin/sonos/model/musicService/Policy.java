@@ -19,4 +19,12 @@ public class Policy
 	{
 		return "Auth:" + auth + ", PollInterval:" + pollInterval;
 	}
+
+	public String getAuth() {
+		return auth;
+	}
+
+	public String getPollInterval() {
+		return pollInterval;
+	}
 }
