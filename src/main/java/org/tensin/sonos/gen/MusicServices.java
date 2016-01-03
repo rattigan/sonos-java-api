@@ -53,7 +53,7 @@ public class MusicServices {
             return this;
         }
 
-        public GetSessionIdResponse execute() {
+        public GetSessionIdResponse execute() throws SonosException {
             Action action = service.getAction("GetSessionId");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -63,7 +63,7 @@ public class MusicServices {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetSessionIdResponse response = new GetSessionIdResponse();
             
@@ -77,13 +77,13 @@ public class MusicServices {
     public class ListAvailableServicesRequest {
         
         
-        public ListAvailableServicesResponse execute() {
+        public ListAvailableServicesResponse execute() throws SonosException {
             Action action = service.getAction("ListAvailableServices");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             ListAvailableServicesResponse response = new ListAvailableServicesResponse();
             
@@ -101,13 +101,13 @@ public class MusicServices {
     public class UpdateAvailableServicesRequest {
         
         
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("UpdateAvailableServices");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }

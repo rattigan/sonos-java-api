@@ -236,7 +236,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetAVTransportURI");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -248,7 +248,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -277,7 +277,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetNextAVTransportURI");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -289,7 +289,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -332,7 +332,7 @@ public class AVTransport {
             return this;
         }
 
-        public AddURIToQueueResponse execute() {
+        public AddURIToQueueResponse execute() throws SonosException {
             Action action = service.getAction("AddURIToQueue");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -348,7 +348,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             AddURIToQueueResponse response = new AddURIToQueueResponse();
             
@@ -429,7 +429,7 @@ public class AVTransport {
             return this;
         }
 
-        public AddMultipleURIsToQueueResponse execute() {
+        public AddMultipleURIsToQueueResponse execute() throws SonosException {
             Action action = service.getAction("AddMultipleURIsToQueue");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -453,7 +453,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             AddMultipleURIsToQueueResponse response = new AddMultipleURIsToQueueResponse();
             
@@ -508,7 +508,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("ReorderTracksInQueue");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -524,7 +524,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -553,7 +553,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("RemoveTrackFromQueue");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -565,7 +565,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -601,7 +601,7 @@ public class AVTransport {
             return this;
         }
 
-        public RemoveTrackRangeFromQueueResponse execute() {
+        public RemoveTrackRangeFromQueueResponse execute() throws SonosException {
             Action action = service.getAction("RemoveTrackRangeFromQueue");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -615,7 +615,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             RemoveTrackRangeFromQueueResponse response = new RemoveTrackRangeFromQueueResponse();
             
@@ -636,7 +636,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("RemoveAllTracksFromQueue");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -644,7 +644,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -673,7 +673,7 @@ public class AVTransport {
             return this;
         }
 
-        public SaveQueueResponse execute() {
+        public SaveQueueResponse execute() throws SonosException {
             Action action = service.getAction("SaveQueue");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -685,7 +685,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             SaveQueueResponse response = new SaveQueueResponse();
             
@@ -706,7 +706,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("BackupQueue");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -714,7 +714,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -750,7 +750,7 @@ public class AVTransport {
             return this;
         }
 
-        public CreateSavedQueueResponse execute() {
+        public CreateSavedQueueResponse execute() throws SonosException {
             Action action = service.getAction("CreateSavedQueue");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -764,7 +764,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             CreateSavedQueueResponse response = new CreateSavedQueueResponse();
             
@@ -826,7 +826,7 @@ public class AVTransport {
             return this;
         }
 
-        public AddURIToSavedQueueResponse execute() {
+        public AddURIToSavedQueueResponse execute() throws SonosException {
             Action action = service.getAction("AddURIToSavedQueue");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -844,7 +844,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             AddURIToSavedQueueResponse response = new AddURIToSavedQueueResponse();
             
@@ -897,7 +897,7 @@ public class AVTransport {
             return this;
         }
 
-        public ReorderTracksInSavedQueueResponse execute() {
+        public ReorderTracksInSavedQueueResponse execute() throws SonosException {
             Action action = service.getAction("ReorderTracksInSavedQueue");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -913,7 +913,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             ReorderTracksInSavedQueueResponse response = new ReorderTracksInSavedQueueResponse();
             
@@ -938,7 +938,7 @@ public class AVTransport {
             return this;
         }
 
-        public GetMediaInfoResponse execute() {
+        public GetMediaInfoResponse execute() throws SonosException {
             Action action = service.getAction("GetMediaInfo");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -946,7 +946,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetMediaInfoResponse response = new GetMediaInfoResponse();
             
@@ -983,7 +983,7 @@ public class AVTransport {
             return this;
         }
 
-        public GetTransportInfoResponse execute() {
+        public GetTransportInfoResponse execute() throws SonosException {
             Action action = service.getAction("GetTransportInfo");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -991,7 +991,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetTransportInfoResponse response = new GetTransportInfoResponse();
             
@@ -1016,7 +1016,7 @@ public class AVTransport {
             return this;
         }
 
-        public GetPositionInfoResponse execute() {
+        public GetPositionInfoResponse execute() throws SonosException {
             Action action = service.getAction("GetPositionInfo");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1024,7 +1024,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetPositionInfoResponse response = new GetPositionInfoResponse();
             
@@ -1059,7 +1059,7 @@ public class AVTransport {
             return this;
         }
 
-        public GetDeviceCapabilitiesResponse execute() {
+        public GetDeviceCapabilitiesResponse execute() throws SonosException {
             Action action = service.getAction("GetDeviceCapabilities");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1067,7 +1067,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetDeviceCapabilitiesResponse response = new GetDeviceCapabilitiesResponse();
             
@@ -1092,7 +1092,7 @@ public class AVTransport {
             return this;
         }
 
-        public GetTransportSettingsResponse execute() {
+        public GetTransportSettingsResponse execute() throws SonosException {
             Action action = service.getAction("GetTransportSettings");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1100,7 +1100,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetTransportSettingsResponse response = new GetTransportSettingsResponse();
             
@@ -1123,7 +1123,7 @@ public class AVTransport {
             return this;
         }
 
-        public GetCrossfadeModeResponse execute() {
+        public GetCrossfadeModeResponse execute() throws SonosException {
             Action action = service.getAction("GetCrossfadeMode");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1131,7 +1131,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetCrossfadeModeResponse response = new GetCrossfadeModeResponse();
             
@@ -1152,7 +1152,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("Stop");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1160,7 +1160,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1182,7 +1182,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("Play");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1192,7 +1192,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1207,7 +1207,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("Pause");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1215,7 +1215,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1244,7 +1244,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("Seek");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1256,7 +1256,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1271,7 +1271,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("Next");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1279,7 +1279,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1294,7 +1294,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("NextProgrammedRadioTracks");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1302,7 +1302,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1317,7 +1317,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("Previous");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1325,7 +1325,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1340,7 +1340,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("NextSection");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1348,7 +1348,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1363,7 +1363,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("PreviousSection");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1371,7 +1371,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1393,7 +1393,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetPlayMode");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1403,7 +1403,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1425,7 +1425,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetCrossfadeMode");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1435,7 +1435,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1457,7 +1457,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("NotifyDeletedURI");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1467,7 +1467,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1482,7 +1482,7 @@ public class AVTransport {
             return this;
         }
 
-        public GetCurrentTransportActionsResponse execute() {
+        public GetCurrentTransportActionsResponse execute() throws SonosException {
             Action action = service.getAction("GetCurrentTransportActions");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1490,7 +1490,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetCurrentTransportActionsResponse response = new GetCurrentTransportActionsResponse();
             
@@ -1511,7 +1511,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("BecomeCoordinatorOfStandaloneGroup");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1519,7 +1519,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1548,7 +1548,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("DelegateGroupCoordinationTo");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1560,7 +1560,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1645,7 +1645,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("BecomeGroupCoordinator");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1673,7 +1673,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1772,7 +1772,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("BecomeGroupCoordinatorAndSource");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1804,7 +1804,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1840,7 +1840,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("ChangeCoordinator");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1854,7 +1854,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1883,7 +1883,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("ChangeTransportSettings");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1895,7 +1895,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1917,7 +1917,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("ConfigureSleepTimer");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1927,7 +1927,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -1942,7 +1942,7 @@ public class AVTransport {
             return this;
         }
 
-        public GetRemainingSleepTimerDurationResponse execute() {
+        public GetRemainingSleepTimerDurationResponse execute() throws SonosException {
             Action action = service.getAction("GetRemainingSleepTimerDuration");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -1950,7 +1950,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetRemainingSleepTimerDurationResponse response = new GetRemainingSleepTimerDurationResponse();
             
@@ -2029,7 +2029,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("RunAlarm");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -2053,7 +2053,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -2103,7 +2103,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("StartAutoplay");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -2121,7 +2121,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -2136,7 +2136,7 @@ public class AVTransport {
             return this;
         }
 
-        public GetRunningAlarmPropertiesResponse execute() {
+        public GetRunningAlarmPropertiesResponse execute() throws SonosException {
             Action action = service.getAction("GetRunningAlarmProperties");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -2144,7 +2144,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetRunningAlarmPropertiesResponse response = new GetRunningAlarmPropertiesResponse();
             
@@ -2176,7 +2176,7 @@ public class AVTransport {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SnoozeAlarm");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -2186,7 +2186,7 @@ public class AVTransport {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }

@@ -46,7 +46,7 @@ public class GroupManagement {
             return this;
         }
 
-        public AddMemberResponse execute() {
+        public AddMemberResponse execute() throws SonosException {
             Action action = service.getAction("AddMember");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -54,7 +54,7 @@ public class GroupManagement {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             AddMemberResponse response = new AddMemberResponse();
             
@@ -81,7 +81,7 @@ public class GroupManagement {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("RemoveMember");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -89,7 +89,7 @@ public class GroupManagement {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -111,7 +111,7 @@ public class GroupManagement {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("ReportTrackBufferingResult");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -121,7 +121,7 @@ public class GroupManagement {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }

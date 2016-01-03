@@ -5,6 +5,7 @@ import com.google.common.io.Files;
 import com.google.common.io.Resources;
 import org.teleal.cling.model.meta.RemoteDevice;
 import org.teleal.cling.model.meta.RemoteService;
+import org.tensin.sonos.SonosException;
 import org.tensin.sonos.commander.Sonos;
 
 import java.io.File;
@@ -25,7 +26,10 @@ public class ExtractDescriptors {
                 RemoteDevice device = sonos.getPlayer(zone).getRootDevice();
                 writeDeviceDescriptors(device, 0);
             }
-        } finally {
+        } catch (SonosException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
             sonos.close();
         }
     }

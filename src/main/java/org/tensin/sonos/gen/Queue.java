@@ -113,7 +113,7 @@ public class Queue {
             return this;
         }
 
-        public AddURIResponse execute() {
+        public AddURIResponse execute() throws SonosException {
             Action action = service.getAction("AddURI");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -131,7 +131,7 @@ public class Queue {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             AddURIResponse response = new AddURIResponse();
             
@@ -207,7 +207,7 @@ public class Queue {
             return this;
         }
 
-        public AddMultipleURIsResponse execute() {
+        public AddMultipleURIsResponse execute() throws SonosException {
             Action action = service.getAction("AddMultipleURIs");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -229,7 +229,7 @@ public class Queue {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             AddMultipleURIsResponse response = new AddMultipleURIsResponse();
             
@@ -256,7 +256,7 @@ public class Queue {
             return this;
         }
 
-        public AttachQueueResponse execute() {
+        public AttachQueueResponse execute() throws SonosException {
             Action action = service.getAction("AttachQueue");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -264,7 +264,7 @@ public class Queue {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             AttachQueueResponse response = new AttachQueueResponse();
             
@@ -280,13 +280,13 @@ public class Queue {
     public class BackupRequest {
         
         
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("Backup");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -315,7 +315,7 @@ public class Queue {
             return this;
         }
 
-        public BrowseResponse execute() {
+        public BrowseResponse execute() throws SonosException {
             Action action = service.getAction("Browse");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -327,7 +327,7 @@ public class Queue {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             BrowseResponse response = new BrowseResponse();
             
@@ -368,7 +368,7 @@ public class Queue {
             return this;
         }
 
-        public CreateQueueResponse execute() {
+        public CreateQueueResponse execute() throws SonosException {
             Action action = service.getAction("CreateQueue");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -380,7 +380,7 @@ public class Queue {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             CreateQueueResponse response = new CreateQueueResponse();
             
@@ -408,7 +408,7 @@ public class Queue {
             return this;
         }
 
-        public RemoveAllTracksResponse execute() {
+        public RemoveAllTracksResponse execute() throws SonosException {
             Action action = service.getAction("RemoveAllTracks");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -418,7 +418,7 @@ public class Queue {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             RemoveAllTracksResponse response = new RemoveAllTracksResponse();
             
@@ -460,7 +460,7 @@ public class Queue {
             return this;
         }
 
-        public RemoveTrackRangeResponse execute() {
+        public RemoveTrackRangeResponse execute() throws SonosException {
             Action action = service.getAction("RemoveTrackRange");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -474,7 +474,7 @@ public class Queue {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             RemoveTrackRangeResponse response = new RemoveTrackRangeResponse();
             
@@ -523,7 +523,7 @@ public class Queue {
             return this;
         }
 
-        public ReorderTracksResponse execute() {
+        public ReorderTracksResponse execute() throws SonosException {
             Action action = service.getAction("ReorderTracks");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -539,7 +539,7 @@ public class Queue {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             ReorderTracksResponse response = new ReorderTracksResponse();
             
@@ -609,7 +609,7 @@ public class Queue {
             return this;
         }
 
-        public ReplaceAllTracksResponse execute() {
+        public ReplaceAllTracksResponse execute() throws SonosException {
             Action action = service.getAction("ReplaceAllTracks");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -631,7 +631,7 @@ public class Queue {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             ReplaceAllTracksResponse response = new ReplaceAllTracksResponse();
             
@@ -668,7 +668,7 @@ public class Queue {
             return this;
         }
 
-        public SaveAsSonosPlaylistResponse execute() {
+        public SaveAsSonosPlaylistResponse execute() throws SonosException {
             Action action = service.getAction("SaveAsSonosPlaylist");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -680,7 +680,7 @@ public class Queue {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             SaveAsSonosPlaylistResponse response = new SaveAsSonosPlaylistResponse();
             

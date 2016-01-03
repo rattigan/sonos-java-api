@@ -43,13 +43,13 @@ public class ConnectionManager {
     public class GetProtocolInfoRequest {
         
         
-        public GetProtocolInfoResponse execute() {
+        public GetProtocolInfoResponse execute() throws SonosException {
             Action action = service.getAction("GetProtocolInfo");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetProtocolInfoResponse response = new GetProtocolInfoResponse();
             
@@ -65,13 +65,13 @@ public class ConnectionManager {
     public class GetCurrentConnectionIDsRequest {
         
         
-        public GetCurrentConnectionIDsResponse execute() {
+        public GetCurrentConnectionIDsResponse execute() throws SonosException {
             Action action = service.getAction("GetCurrentConnectionIDs");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetCurrentConnectionIDsResponse response = new GetCurrentConnectionIDsResponse();
             
@@ -92,7 +92,7 @@ public class ConnectionManager {
             return this;
         }
 
-        public GetCurrentConnectionInfoResponse execute() {
+        public GetCurrentConnectionInfoResponse execute() throws SonosException {
             Action action = service.getAction("GetCurrentConnectionInfo");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -100,7 +100,7 @@ public class ConnectionManager {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetCurrentConnectionInfoResponse response = new GetCurrentConnectionInfoResponse();
             

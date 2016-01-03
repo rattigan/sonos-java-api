@@ -62,7 +62,7 @@ public class AudioIn {
             return this;
         }
 
-        public StartTransmissionToGroupResponse execute() {
+        public StartTransmissionToGroupResponse execute() throws SonosException {
             Action action = service.getAction("StartTransmissionToGroup");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -70,7 +70,7 @@ public class AudioIn {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             StartTransmissionToGroupResponse response = new StartTransmissionToGroupResponse();
             
@@ -91,7 +91,7 @@ public class AudioIn {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("StopTransmissionToGroup");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -99,7 +99,7 @@ public class AudioIn {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -121,7 +121,7 @@ public class AudioIn {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetAudioInputAttributes");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -131,7 +131,7 @@ public class AudioIn {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -139,13 +139,13 @@ public class AudioIn {
     public class GetAudioInputAttributesRequest {
         
         
-        public GetAudioInputAttributesResponse execute() {
+        public GetAudioInputAttributesResponse execute() throws SonosException {
             Action action = service.getAction("GetAudioInputAttributes");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetAudioInputAttributesResponse response = new GetAudioInputAttributesResponse();
             
@@ -175,7 +175,7 @@ public class AudioIn {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetLineInLevel");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -185,7 +185,7 @@ public class AudioIn {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -193,13 +193,13 @@ public class AudioIn {
     public class GetLineInLevelRequest {
         
         
-        public GetLineInLevelResponse execute() {
+        public GetLineInLevelResponse execute() throws SonosException {
             Action action = service.getAction("GetLineInLevel");
             ActionInvocation invocation = new ActionInvocation(action);
             
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetLineInLevelResponse response = new GetLineInLevelResponse();
             
@@ -222,7 +222,7 @@ public class AudioIn {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SelectAudio");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -230,7 +230,7 @@ public class AudioIn {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }

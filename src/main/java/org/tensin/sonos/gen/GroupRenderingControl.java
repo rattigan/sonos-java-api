@@ -58,7 +58,7 @@ public class GroupRenderingControl {
             return this;
         }
 
-        public GetGroupMuteResponse execute() {
+        public GetGroupMuteResponse execute() throws SonosException {
             Action action = service.getAction("GetGroupMute");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -66,7 +66,7 @@ public class GroupRenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetGroupMuteResponse response = new GetGroupMuteResponse();
             
@@ -94,7 +94,7 @@ public class GroupRenderingControl {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetGroupMute");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -104,7 +104,7 @@ public class GroupRenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -119,7 +119,7 @@ public class GroupRenderingControl {
             return this;
         }
 
-        public GetGroupVolumeResponse execute() {
+        public GetGroupVolumeResponse execute() throws SonosException {
             Action action = service.getAction("GetGroupVolume");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -127,7 +127,7 @@ public class GroupRenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             GetGroupVolumeResponse response = new GetGroupVolumeResponse();
             
@@ -155,7 +155,7 @@ public class GroupRenderingControl {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SetGroupVolume");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -165,7 +165,7 @@ public class GroupRenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
@@ -187,7 +187,7 @@ public class GroupRenderingControl {
             return this;
         }
 
-        public SetRelativeGroupVolumeResponse execute() {
+        public SetRelativeGroupVolumeResponse execute() throws SonosException {
             Action action = service.getAction("SetRelativeGroupVolume");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -197,7 +197,7 @@ public class GroupRenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
             SetRelativeGroupVolumeResponse response = new SetRelativeGroupVolumeResponse();
             
@@ -218,7 +218,7 @@ public class GroupRenderingControl {
             return this;
         }
 
-        public void execute() {
+        public void execute() throws SonosException {
             Action action = service.getAction("SnapshotGroupVolume");
             ActionInvocation invocation = new ActionInvocation(action);
             
@@ -226,7 +226,7 @@ public class GroupRenderingControl {
 
             new ActionCallback.Default(invocation, upnpService.getControlPoint()).run();
             if (invocation.getFailure() != null)
-                throw new SonosException("" + invocation.getFailure().getErrorCode(), invocation.getFailure());
+                throw new SonosException(invocation.getFailure().getErrorCode(), invocation.getFailure());
             
         }
     }
