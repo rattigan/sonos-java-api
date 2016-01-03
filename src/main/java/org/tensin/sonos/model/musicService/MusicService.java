@@ -44,4 +44,49 @@ public class MusicService
 		return "Name= " + name + ", Version=" + version + ", URL=" + url;
 	}
 
+
+	public String getServiceId() {
+		return serviceId;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public String getVersion() {
+		return version;
+	}
+
+
+	public URL getUrl() {
+		return url;
+	}
+
+
+	public URL getSecureUrl() {
+		return secureUrl;
+	}
+
+
+	public String getContainerType() {
+		return containerType;
+	}
+
+
+	public String getCapabilities() {
+		return capabilities;
+	}
+
+
+	public Policy getPolicy() {
+		return policy;
+	}
+
+
+	public Presentation getPresentation() {
+		return presentation;
+	}
+
 }
