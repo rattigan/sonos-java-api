@@ -32,8 +32,10 @@ public class ZonePlayer {
     /**
      * Find child device.
      *
-     * @param device the device
-     * @param type   the type
+     * @param device
+     *            the device
+     * @param type
+     *            the type
      * @return the remote device
      */
     protected static RemoteDevice findChildDevice(final RemoteDevice device, final String type) {
@@ -45,11 +47,14 @@ public class ZonePlayer {
         return null;
     }
 
+    public String toString() {
+        return dev.getDetails().getFriendlyName();
+    }
+
     /**
      * The dev.
      */
     private final RemoteDevice dev;
-
 
     /**
      * The ip.
@@ -65,8 +70,10 @@ public class ZonePlayer {
      * Creates a new sonos device around the given RemoteDevice. This device
      * must be a sonos device
      *
-     * @param upnpService the upnp service
-     * @param dev         the dev
+     * @param upnpService
+     *            the upnp service
+     * @param dev
+     *            the dev
      */
     public ZonePlayer(final UpnpService upnpService, final RemoteDevice dev) {
         if (!dev.getType().toString().equals(ZonePlayerConstants.SONOS_DEVICE_TYPE)) {
@@ -83,11 +90,14 @@ public class ZonePlayer {
     }
 
     /**
-     * Creates a new URL by appending the given string to this zonePlayer's attributes.
+     * Creates a new URL by appending the given string to this zonePlayer's
+     * attributes.
      *
-     * @param url the url to append, eg "/images/image1.png"
+     * @param url
+     *            the url to append, eg "/images/image1.png"
      * @return the complete url eg "http://192.168.0.1:1400/images/image1.png"
-     * @throws MalformedURLException the malformed url exception
+     * @throws MalformedURLException
+     *             the malformed url exception
      */
     public URL appendUrl(final String url) throws MalformedURLException {
         return new URL("http", getIP().getHostAddress(), getPort(), url);
@@ -111,7 +121,8 @@ public class ZonePlayer {
         }
         if (obj instanceof ZonePlayer) {
             final ZonePlayer zp = (ZonePlayer) obj;
-            return zp.getRootDevice().getIdentity().getUdn().getIdentifierString().equals(getRootDevice().getIdentity().getUdn().getIdentifierString());
+            return zp.getRootDevice().getIdentity().getUdn().getIdentifierString()
+                    .equals(getRootDevice().getIdentity().getUdn().getIdentifierString());
         }
         return false;
     }
@@ -153,7 +164,6 @@ public class ZonePlayer {
     public RemoteDevice getRootDevice() {
         return dev;
     }
-
 
     /**
      * {@inheritDoc}

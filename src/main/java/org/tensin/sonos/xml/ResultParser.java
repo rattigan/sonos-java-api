@@ -18,12 +18,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.convert.Registry;
+import org.simpleframework.xml.convert.RegistryStrategy;
+import org.simpleframework.xml.core.Persister;
+import org.simpleframework.xml.strategy.Strategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tensin.sonos.SonosException;
 import org.tensin.sonos.model.Entry;
 import org.tensin.sonos.model.TrackMetaData;
 import org.tensin.sonos.model.ZoneGroupState;
+import org.tensin.sonos.model.musicService.MusicService;
+import org.tensin.sonos.model.musicService.MusicServiceContainer;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -102,7 +109,8 @@ public class ResultParser {
      * @throws SAXException
      *             the sAX exception
      */
-    public static Map<AVTransportEventHandler.AVTransportEventType, String> parseAVTransportEvent(final String xml) throws SAXException {
+    public static Map<AVTransportEventHandler.AVTransportEventType, String> parseAVTransportEvent(final String xml)
+            throws SAXException {
         XMLReader reader = XMLReaderFactory.createXMLReader();
         AVTransportEventHandler handler = new AVTransportEventHandler();
         reader.setContentHandler(handler);
@@ -124,7 +132,8 @@ public class ResultParser {
      * @throws SAXException
      *             the sAX exception
      */
-    public static Map<RenderingControlEventHandler.RenderingControlEventType, String> parseRenderingControlEvent(final String xml) throws SAXException {
+    public static Map<RenderingControlEventHandler.RenderingControlEventType, String> parseRenderingControlEvent(
+            final String xml) throws SAXException {
         XMLReader reader = XMLReaderFactory.createXMLReader();
         RenderingControlEventHandler handler = new RenderingControlEventHandler();
         reader.setContentHandler(handler);
@@ -157,5 +166,27 @@ public class ResultParser {
             LOGGER.error("Could not parse AV Transport Event: ", e);
         }
         return handler.getMetaData();
+    }
+
+    public static List<MusicService> parseMusicServices(final String xml) throws SAXException {
+
+        // Extract MusicService details.
+        Registry registry = new Registry();
+        // registry.bind(URI.class, URIConverter.class);
+        Strategy strategy = new RegistryStrategy(registry);
+        Serializer serializer = new Persister(strategy);
+
+        MusicServiceContainer manager;
+        try {
+            manager = serializer.read(MusicServiceContainer.class, xml);
+        } catch (Exception e) {
+
+            // A little ugly - but don't want callers to have to deal with yet
+            // another exception type
+            throw new SAXException(e);
+        }
+
+        return manager.getMusicServices();
+
     }
 }
